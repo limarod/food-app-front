@@ -27,6 +27,7 @@ function AuthProvider({children}){
     }
   }  
 
+  // não esquecer que vc tem que passar o use state e a function dentro do botão de signout.
   async function signOut(){
     localStorage.removeItem("@foodExplorer:token");
     localStorage.removeItem("@foodExplorer:user");

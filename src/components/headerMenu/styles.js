@@ -19,5 +19,6 @@ export const Container = styled.div`
 
   h2{
     font-weight: 400;
+    font-size: 1.8rem;
   }
 `

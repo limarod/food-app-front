@@ -6,10 +6,10 @@ import{ Footer} from"../../components/footer"
 import {BsSearch} from "react-icons/bs"
   
 
-export function Menu(){
+export function Menu({menuIsOpen, onCloseMenu}){
   return(
-    <Container>
-      <HeaderMenu/>
+    <Container data-menu-is-open={menuIsOpen}>
+      <HeaderMenu onCloseMenu={onCloseMenu}/>
 
       <div className="content">
         <div className="input">

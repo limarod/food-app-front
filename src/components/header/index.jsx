@@ -5,11 +5,16 @@ import {BiFoodMenu} from "react-icons/bi"
 
 
 
-export function Header(){
+export function Header({onOpenMenu, hiddenSideMenu}){
+
+  const handleOnClick = () =>{
+    onOpenMenu();
+    hiddenSideMenu();
+  }
   return (
     <Container>
       
-      <HiOutlineMenu />
+      <HiOutlineMenu onClick={handleOnClick } />
         <div>
           <BiFoodMenu />
           <h1>Food explorer</h1>

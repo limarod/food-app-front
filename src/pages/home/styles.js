@@ -1,8 +1,18 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
+  /* height: 100%; */
+  /* position: absolute; */
+  /* z-index: 2; */
 
-  .homeImg{
+  .sideMenuHidden{
+    &[data-hidden-below-menu="true"]{
+      display: none;
+      /* transform: translateX(0); */
+    }
+    
+  }
+.homeImg{
     margin: 4.4rem 0 4.4rem;
     
     display: flex;
