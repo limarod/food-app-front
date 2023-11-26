@@ -2,14 +2,13 @@ import { Container } from "./styles";
 import {HiOutlineMenu} from "react-icons/hi"
 import {BiFoodMenu} from "react-icons/bi"
 
+ 
 
 
-
-export function Header({onOpenMenu, hiddenSideMenu}){
+export function Header({onOpenMenu}){
 
   const handleOnClick = () =>{
     onOpenMenu();
-    hiddenSideMenu();
   }
   return (
     <Container>

@@ -17,11 +17,12 @@ export function Select({icon: Icon, value, ...rest}){
   return(
     <Container {...rest}>
       
-      <StyledSelect ref={selectRef} >
-        <option value="Entrada"> Entrada</option>
-        <option value="Refeição" selected>Refeição</option>
-        <option value="Bebida">Bebida</option>
-        <option value="Sobremesa">Sobremesa</option>
+      <StyledSelect ref={selectRef} value={value} >
+        <option value ="Null">  Escolha uma opção</option>
+        <option value ="Entrada">  Entrada</option>
+        <option value ="Refeição" >Refeição</option>
+        <option value ="Bebida">Bebida</option>
+        <option value ="Sobremesa">Sobremesa</option>
       </StyledSelect>
 
       <StyledIcon onClick={handleIconClick} ref={iconRef}>
