@@ -80,6 +80,17 @@ export function UpdateDish(){
     })
   }
 
+  async function handleDeleteDish(){
+    const confirm = window.confirm("Deseja realmente excluir prato do menu?")
+
+    if(confirm){
+      await api.delete(`/menu/${params.id}`)
+      navigate("/")
+    }
+  }
+
+
+
   useEffect( () => {
     async function fetchDish(){
       const response = await api.get(`/menu/${params.id}`);
@@ -90,6 +101,8 @@ export function UpdateDish(){
     fetchDish();
 
   }, [])
+
+
   return(
     <Container>
         <Header/>
@@ -180,7 +193,11 @@ export function UpdateDish(){
             // defaultValue ="A Salada Ceasar é um opção refrescasnte para o verão "
           />
           <div className="buttonsDiv">
-            <Button title={"Excluir prato"}/>
+            <Button 
+              title={"Excluir prato"}
+              onClick={handleDeleteDish}
+            />
+            
             <Button 
               title={"Salvar alterações"} 
               onClick={handleUpdateDish}

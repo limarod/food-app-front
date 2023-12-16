@@ -2,6 +2,7 @@ import {Container} from "./styles"
 import {Header} from "../../components/header"
 import {Footer} from "../../components/footer"
 import macarrons from "../../assets/macarrons.png"
+import salada_rav from "../../assets/Dish - Salada Ravanello.png"
 import {PiPencilSimpleLight} from "react-icons/pi"
 import {Menu} from "../menu"
 import { useState, useEffect } from "react"
@@ -39,28 +40,25 @@ export function Home (){
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
 
-
-
   function handleUpdateDish(dishId){
     navigate(`/updateDish/${dishId}`)
-    console.log("TESTANDO FUNCAO")
   }
 
-  useEffect(() => {
-    async function fetchDishs(){
-      const response = await api.get("/menu");
-      setDishs(response.data)
-    }
+  function handleDetails(id){
+    navigate(`/details/${id}`)
+  }
 
-    fetchDishs()
-  }, [])
+  function handleSearchCompleted(data){
+    setDishs(data)
+  }
   
- 
+
   return(
     <Container>
       <Menu 
         menuIsOpen={menuIsOpen}
         onCloseMenu={()=> setMenuIsOpen(false)}
+        onSearchComplete={handleSearchCompleted}
       />
       <div className="sideMenuHidden" data-hidden-below-menu={menuIsOpen} >
         <Header 
@@ -90,12 +88,17 @@ export function Home (){
                       <ButtonText title={<PiPencilSimpleLight/>} 
                         onClick ={(event) => {
                           event.preventDefault();
-                          console.log("Botão clicado");
                           handleUpdateDish(dish.id)}}
                       // to={"/updateDish/25"} 
                     />
                     
-                      <img src="" alt="" />
+                      <img 
+                        src={macarrons} 
+                        alt=""
+                        onClick={(event) => {
+                          event.preventDefault()
+                          handleDetails(dish.id)}}
+                      />
                         <h4> {dish.name} </h4>
                       <h4> {dish.price}</h4>
                     </div>

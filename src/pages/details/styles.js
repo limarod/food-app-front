@@ -4,6 +4,10 @@ import { ButtonText } from "../../components/buttonText"
 
 export const Container = styled.div`
 
+li{
+  list-style: none;
+}
+
   Icon{
     font-size: 2rem;
   }

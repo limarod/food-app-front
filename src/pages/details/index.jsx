@@ -4,34 +4,74 @@ import {Header} from "../../components/header"
 import {Footer} from "../../components/footer"
 import {Tag} from "../../components/tag"
 import dishimage from "../../assets/Dish - Salada Ravanello.png"
+import { useParams, useNavigate } from "react-router-dom"
+import{useState, useEffect} from "react"
+import { api } from "../../services/api";
+
+
+
 
 export function Details(){
+
+  const [data, setData] = useState(null)
+
+  const params = useParams();
+  const navigate = useNavigate()
+
+  function handleUpdateDish(dishId){
+    navigate(`/updateDish/${dishId}`)
+  }
+  
+  useEffect(() =>{
+    async function fetchDishDetails(){
+      const response = await api.get(`/menu/${params.id}`);
+      
+      setData(response.data);
+    }
+
+    fetchDishDetails();
+
+  }, [])
+
   return (
     <Container>
       <Header/>
-        <div className="containerDetails">
-          <NewButtonText title={"Voltar"} to="/"/>
-          <img src={dishimage} alt="imagem do prato" />
 
-          <h1>Salada Ravanello</h1>
+        { data &&
 
-          <p>Rabanetes, folhas verdes e molho agridoce salpicados com gergelim.</p>
+        
+          <div className="containerDetails">
+            <NewButtonText title={"Voltar"} to="/"/>
+            <img src={dishimage} alt="imagem do prato" />
 
-          <div className="tagsContainer">
-            <Tag title={"alface"}/>  
-            <Tag title={"cebola"}/>  
-            <Tag title={"pão noan"}/>  
-            <Tag title={"pepino"}/>  
-            <Tag title={"rabanete"}/>  
-            <Tag title={"tomate"}/>  
-            <Tag title={"tomate"}/>  
-            <Tag title={"tomate"}/>  
-            <Tag title={"tomate"}/>  
-            <Tag title={"tomate"}/>  
-            <Tag title={"tomate"}/>  
-          </div>
-          <NewButton title={"Editar prato"} />
-        </div> 
+            <h1>{data.name}</h1>
+
+            <p>{data.description}</p>
+
+            
+            <div className="tagsContainer">
+             
+            { data.ingredients && data.ingredients.map(ingredient => (
+                <li key={ingredient.id.toString()} >
+                  <Tag title={ingredient.tags}/> 
+                </li>
+                ))
+            }
+            
+              </div>
+                
+            <NewButton 
+              title={"Editar prato"}
+              onClick ={(event) => {
+                event.preventDefault();
+                handleUpdateDish(data.id)}}
+           />
+           
+          
+          
+          </div> 
+          
+        }
       <Footer/>
     </Container>
   )
