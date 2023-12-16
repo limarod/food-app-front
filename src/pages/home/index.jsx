@@ -8,23 +8,22 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { ButtonText } from "../../components/buttonText"
 import { Button } from "../../components/button"
+import { api } from "../../services/api"
+
 
 export function Home (){
-  const navigate = useNavigate()
 
-  const [menuIsOpen, setMenuIsOpen] = useState(false)
+    // useEffect(() => {
+  //   const handleMessage = (event) => {
+  //     console.log('Received MessageEvent:', event);
+  //   };
 
-  useEffect(() => {
-    const handleMessage = (event) => {
-      console.log('Received MessageEvent:', event);
-    };
+  //   window.addEventListener('message', handleMessage);
 
-    window.addEventListener('message', handleMessage);
-
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('message', handleMessage);
+  //   };
+  // }, []);
 
 //   Busca no Código-Fonte:
 
@@ -35,18 +34,30 @@ export function Home (){
 // Libs Externas:
 
 // Se você estiver usando bibliotecas externas, verifique a documentação para garantir que não esteja ocorrendo alguma comunicação inesperada.
+  const navigate = useNavigate()
 
-  function handleUpdateDish(){
-    navigate("/updateDish/25")
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
+  const [dishs, setDishs] = useState([])
+
+
+
+  function handleUpdateDish(dishId){
+    navigate(`/updateDish/${dishId}`)
     console.log("TESTANDO FUNCAO")
   }
 
+  useEffect(() => {
+    async function fetchDishs(){
+      const response = await api.get("/menu");
+      setDishs(response.data)
+    }
 
-
-   
-
+    fetchDishs()
+  }, [])
+  
+ 
   return(
-    <Container  >
+    <Container>
       <Menu 
         menuIsOpen={menuIsOpen}
         onCloseMenu={()=> setMenuIsOpen(false)}
@@ -71,22 +82,32 @@ export function Home (){
           <div className="main">
             <div className="cardsEntrada">
               <h3>Entradas</h3>
-              <div className="backgroundCard">
-              <ButtonText title={<PiPencilSimpleLight/>} 
-                // onClick ={() => { console.log("Botão clicado");
-                // handleUpdateDish()}}
-                to={"/updateDish/25"} 
-                
-                />
               
-                <img src="" alt="" />
-                <h4>Salada Ravanello &gt;</h4>
-                <h4>R$ 49,90</h4>
-              </div>
+              {
+                dishs && dishs.map(dish => (
+                  <li key={dish.id.toString()}>
+                    <div className="backgroundCard">
+                      <ButtonText title={<PiPencilSimpleLight/>} 
+                        onClick ={(event) => {
+                          event.preventDefault();
+                          console.log("Botão clicado");
+                          handleUpdateDish(dish.id)}}
+                      // to={"/updateDish/25"} 
+                    />
+                    
+                      <img src="" alt="" />
+                        <h4> {dish.name} </h4>
+                      <h4> {dish.price}</h4>
+                    </div>
+                  </li>
+                ))
+              }
             </div>
 
             <div className="cardsRefeicao">
-              <h3>Refeições</h3>
+              <h3>Refeições
+              
+              </h3>
               <div className="backgroundCard">
                 <span><PiPencilSimpleLight/></span>
                 <img src="" alt="" />

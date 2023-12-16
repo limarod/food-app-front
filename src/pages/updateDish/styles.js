@@ -3,7 +3,9 @@ import {styled} from "styled-components"
 
 export const Container = styled.div`
 
-
+li{
+  list-style: none;
+}
 
 .content{
   padding: 1.6rem;

@@ -12,6 +12,11 @@ export const Container = styled.div`
     }
     
   }
+
+  li{
+    list-style: none;
+  }
+
 .homeImg{
     margin: 4.4rem 0 4.4rem;
     
