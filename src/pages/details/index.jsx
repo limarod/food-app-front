@@ -21,17 +21,27 @@ export function Details(){
   function handleUpdateDish(dishId){
     navigate(`/updateDish/${dishId}`)
   }
+
+
   
   useEffect(() =>{
     async function fetchDishDetails(){
       const response = await api.get(`/menu/${params.id}`);
       
       setData(response.data);
+      console.log(data)
     }
 
     fetchDishDetails();
 
   }, [])
+
+  
+  if(!data){
+    return null
+  }
+
+  const dishImgUrl = `${api.defaults.baseURL}/files/${data.image_plate}`
 
   return (
     <Container>
@@ -42,7 +52,7 @@ export function Details(){
         
           <div className="containerDetails">
             <NewButtonText title={"Voltar"} to="/"/>
-            <img src={dishimage} alt="imagem do prato" />
+            <img src={dishImgUrl} alt="imagem do prato" />
 
             <h1>{data.name}</h1>
 

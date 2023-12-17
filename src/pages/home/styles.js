@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { ButtonText } from "../../components/buttonText";
 
 export const Container = styled.div`
   /* height: 100%; */
@@ -17,7 +18,7 @@ export const Container = styled.div`
     list-style: none;
   }
 
-.homeImg{
+  .homeImg{
     margin: 4.4rem 0 4.4rem;
     
     display: flex;
@@ -65,9 +66,10 @@ export const Container = styled.div`
   }
 
   .backgroundCard{
-    width: 14rem;
+    width: 15rem;
     height: 20rem;
     background-color: ${({theme}) => theme.COLORS.CardsBackground};
+    position: relative;
 
     margin-top: 2rem;
 
@@ -92,5 +94,19 @@ export const Container = styled.div`
       margin-left: 9rem;
     }
   }
+
+  .imgDISH{
+    width: 100%;
+    height: 100%;
+    margin: 5px 0 8px 0 ;
   }
+ 
+}
+`
+
+export const StyledButtonText = styled(ButtonText)`
+  font-size: 3rem;
+  position: absolute;
+  right: 6px;
+  top: 6px;
 `

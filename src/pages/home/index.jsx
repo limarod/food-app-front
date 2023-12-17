@@ -1,4 +1,4 @@
-import {Container} from "./styles"
+import {Container, StyledButtonText} from "./styles"
 import {Header} from "../../components/header"
 import {Footer} from "../../components/footer"
 import macarrons from "../../assets/macarrons.png"
@@ -40,6 +40,11 @@ export function Home (){
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
 
+
+  
+  const dishImgUrl = dishs.map(dish => `${api.defaults.baseURL}/files/${dish.image_plate}`)
+  console.log(dishImgUrl)
+
   function handleUpdateDish(dishId){
     navigate(`/updateDish/${dishId}`)
   }
@@ -52,6 +57,7 @@ export function Home (){
     setDishs(data)
   }
   
+
 
   return(
     <Container>
@@ -85,19 +91,20 @@ export function Home (){
                 dishs && dishs.map(dish => (
                   <li key={dish.id.toString()}>
                     <div className="backgroundCard">
-                      <ButtonText title={<PiPencilSimpleLight/>} 
+                      <StyledButtonText title={<PiPencilSimpleLight/>} 
                         onClick ={(event) => {
                           event.preventDefault();
                           handleUpdateDish(dish.id)}}
-                      // to={"/updateDish/25"} 
-                    />
+                          // to={"/updateDish/25"} 
+                        />
                     
                       <img 
-                        src={macarrons} 
+                        src={dishImgUrl.find(url => url.includes(dish.image_plate))} 
                         alt=""
                         onClick={(event) => {
                           event.preventDefault()
                           handleDetails(dish.id)}}
+                          className="imgDISH"
                       />
                         <h4> {dish.name} </h4>
                       <h4> {dish.price}</h4>

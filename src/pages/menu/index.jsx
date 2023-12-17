@@ -12,7 +12,7 @@ import { api } from "../../services/api"
 export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
 
   const {signOut} = useAuth()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const [search, setSearch] = useState("")
 

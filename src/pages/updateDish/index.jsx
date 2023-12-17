@@ -34,8 +34,12 @@ export function UpdateDish(){
   const [category, setCategory] = useState()
   const [description, setDescription] = useState()
   const [price, setPrice] = useState()
-  const [ingredients, setIngredients] = useState()
 
+
+
+
+
+  // const [ingredients, setIngredients] = useState()
   //Adicionar novas Tags na edição do prato
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
@@ -44,7 +48,7 @@ export function UpdateDish(){
   const navigate = useNavigate()
 
 
-    async function handleUpdateDish(){
+  async function handleUpdateDish(){
       //ajustar Handle update 
     const updatedIngredients = 
     [...data.ingredients.map(ingredient => ingredient.tags), ...ingredientsList]
@@ -57,9 +61,18 @@ export function UpdateDish(){
       ingredients: updatedIngredients
     }
 
+    if(imgDishFile){
+      const fileUploadForm = new FormData()
+      fileUploadForm.append("dishImage", imgDishFile);
+
+      const response = await api.patch(`/menu/dishImage/${params.id}`, fileUploadForm );
+      console.log(response.data)
+      dish.image_plate = response.data.dishImage
+    }
+
     await api.put(`/menu/${params.id}`, dish)
+
     alert("Atualizado com sucesso")
-    console.log(updatedIngredients)
     // navigate("/")
 
   }
@@ -90,6 +103,20 @@ export function UpdateDish(){
   }
 
 
+  const [imgDish, setImgDish] = useState()
+  const [imgDishFile, setImgDishFile] = useState(null)
+
+  function handleChangeImgDish(event){
+    const file = event.target.files[0];
+    // const imagePreview = URL.createObjectURL(file);
+
+    setImgDishFile(file);
+
+
+    // setImgDish(imagePreview)
+
+  }
+
 
   useEffect( () => {
     async function fetchDish(){
@@ -117,7 +144,7 @@ export function UpdateDish(){
           <Input 
             type="file" 
             placeholder="Selecione imagem"
-            // onChange={handleChangeImgDish}
+            onChange={handleChangeImgDish}
           />
 
           <p> Nome do Prato</p>
