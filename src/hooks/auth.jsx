@@ -10,15 +10,15 @@ function AuthProvider({children}){
 
   async function signIn({email, password}){
     try {
-      const response = await api.post("/sessions", {email, password});
-      const {user, token} = response.data;
+      const response = await api.post("/sessions",
+      {email, password},
+      {withCredentials: true}
+      );
+      const {user} = response.data;
 
       localStorage.setItem("@foodExplorer:user", JSON.stringify(user))
-      localStorage.setItem("@foodExplorer:token", token)
 
-      api.defaults.headers.common['authorization'] = `Bearer ${token}`;
-      console.log(user, token)
-      setData({user, token})
+      setData({user})
 
     } catch (error) {
       if(error.response){
@@ -30,7 +30,6 @@ function AuthProvider({children}){
   }  
 
   async function signOut(){
-    localStorage.removeItem("@foodExplorer:token");
     localStorage.removeItem("@foodExplorer:user");
 
     setData({});
@@ -42,7 +41,7 @@ function AuthProvider({children}){
       await api.put("/users", user);
       localStorage.setItem("@foodExplorer:user", JSON.stringify(user));
 
-      setData({user, token:data.token});
+      setData({user});
       alert("Perfil atualizado com sucesso.")
       
     } catch (error) {
@@ -68,14 +67,11 @@ function AuthProvider({children}){
   }
 
     useEffect(() => {
-        const token = localStorage.getItem("@foodExplorer:token");
         const user = localStorage.getItem("@foodExplorer:user");
 
-        if(token && user){
-          api.defaults.headers.common['authorization'] = `Bearer ${token}`;
+        if(user){
 
           setData({
-            token, 
             user: JSON.parse(user)
           })
         }
