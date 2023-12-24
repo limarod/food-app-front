@@ -34,12 +34,9 @@ export function UpdateDish(){
   const [category, setCategory] = useState()
   const [description, setDescription] = useState()
   const [price, setPrice] = useState()
+  const [imgDishFile, setImgDishFile] = useState(null)
 
-
-
-
-
-  // const [ingredients, setIngredients] = useState()
+  //const [ingredients, setIngredients] = useState()
   //Adicionar novas Tags na edição do prato
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
@@ -50,15 +47,21 @@ export function UpdateDish(){
 
   async function handleUpdateDish(){
       //ajustar Handle update 
-    const updatedIngredients = 
-    [...data.ingredients.map(ingredient => ingredient.tags), ...ingredientsList]
-
+    
+    const existingTagsResponse = data.ingredients.map(ingredient => ingredient.tags);
+    const uniqueNewIngredients = ingredientsList.filter(tag => {
+      const tagLowerCase = tag.toLowerCase();
+      return !existingTagsResponse.some(existingTag => existingTag === tagLowerCase)})
+      
     const dish = {
       name,
       category,
       description,
       price,
-      ingredients: updatedIngredients
+    }
+
+    if(uniqueNewIngredients.length > 0){
+      dish.ingredients = uniqueNewIngredients
     }
 
     if(imgDishFile){
@@ -69,6 +72,10 @@ export function UpdateDish(){
       console.log(response.data)
       dish.image_plate = response.data.dishImage
     }
+    
+    if(newIngredient){
+      return alert("Existem ingredientes não adicionados")
+    }
 
     await api.put(`/menu/${params.id}`, dish)
 
@@ -77,19 +84,46 @@ export function UpdateDish(){
 
   }
 
-  function handleAddTag(){
-    setIngredientsList(prevState => [...prevState, newIngredient]);
+  async function handleAddTag(){
+
+    const existingTagsResponse = data.ingredients.map(ingredient => ingredient.tags.toLowerCase()); 
+    const newIngredientToCompare = newIngredient.toLowerCase()
+    const newIngredientTrim = newIngredient.trim()
+
+
+    if(existingTagsResponse.includes(newIngredientToCompare)){
+      setNewIngredient("")
+      return alert("Você está tentando adicionar um ingrediente já existente")
+      
+    }
+    
+    if(ingredientsList.includes(newIngredientToCompare)){
+      setNewIngredient("")
+      return alert("Você está tentando adicionar um ingrediente já existente")
+      
+    }
+
+    if(newIngredient === "" || newIngredient === undefined){
+        return alert("Não é possível inserir um ingrediente `vazio`")
+      }
+
+    setIngredientsList(prevState => [...prevState, newIngredientTrim]);
     setNewIngredient("")
   }
 
-  function handleRemoveTag(tagDeleted){
+  async function handleRemoveTag(tagDeleted){
+
+    console.log(tagDeleted)
+    await api.delete(`/ingredients/${tagDeleted}`)
 
     setIngredientsList(prevState => prevState.filter(tag => tag !== tagDeleted) )
-    // console.log(tagDeleted)
-    setData(prevState =>{
-      const updatedIngredients = prevState.ingredients.filter(ingredient => ingredient !== tagDeleted)
-      console.log(prevState.ingredients)
-      return{...prevState, ingredients: updatedIngredients }
+
+    setData( (prevState) =>{
+
+      const updatedIngredients = prevState.ingredients.filter(ingredient => ingredient.id !== tagDeleted)
+      
+        return{...prevState, ingredients: updatedIngredients } 
+
     })
   }
 
@@ -101,10 +135,6 @@ export function UpdateDish(){
       navigate("/")
     }
   }
-
-
-  const [imgDish, setImgDish] = useState()
-  const [imgDishFile, setImgDishFile] = useState(null)
 
   function handleChangeImgDish(event){
     const file = event.target.files[0];
@@ -149,7 +179,7 @@ export function UpdateDish(){
 
           <p> Nome do Prato</p>
           <Input 
-            defaultValue={data?.name?? ""}
+            defaultValue={data.name}
             type="text" 
             onChange={e => setName(e.target.value)}
             // defaultValue="Salada Ceasar"
@@ -176,7 +206,8 @@ export function UpdateDish(){
                   <TagItem 
                     value={ingredient.tags}
                     // onClick={() =>{{handleRemoveTag(ingredient)}}}
-                    onClick={() => {handleRemoveTag(ingredient)}}
+                    onClick={() => {handleRemoveTag(ingredient.id)}}
+                   
                     // onChange={e => setIngredients(e.target.value)}
                   />
                   </li>

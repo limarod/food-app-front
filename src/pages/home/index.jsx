@@ -10,9 +10,12 @@ import { useNavigate } from "react-router-dom"
 import { ButtonText } from "../../components/buttonText"
 import { Button } from "../../components/button"
 import { api } from "../../services/api"
+import {useAuth} from "../../hooks/auth"
+import{USER_ROLE} from "../../utils/roles"
 
 
 export function Home (){
+
 
     // useEffect(() => {
   //   const handleMessage = (event) => {
@@ -36,6 +39,7 @@ export function Home (){
 
 // Se você estiver usando bibliotecas externas, verifique a documentação para garantir que não esteja ocorrendo alguma comunicação inesperada.
   const navigate = useNavigate()
+  const {user} = useAuth()
 
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
@@ -60,6 +64,8 @@ export function Home (){
 
 
   return(
+
+
     <Container>
       <Menu 
         menuIsOpen={menuIsOpen}
@@ -91,12 +97,14 @@ export function Home (){
                 dishs && dishs.map(dish => (
                   <li key={dish.id.toString()}>
                     <div className="backgroundCard">
+                      { [USER_ROLE.ADMIN].includes(user.role) &&
                       <StyledButtonText title={<PiPencilSimpleLight/>} 
-                        onClick ={(event) => {
-                          event.preventDefault();
-                          handleUpdateDish(dish.id)}}
-                          // to={"/updateDish/25"} 
+                      onClick ={(event) => {
+                        event.preventDefault();
+                        handleUpdateDish(dish.id)}}
+                        // to={"/updateDish/25"} 
                         />
+                      }
                     
                       <img 
                         src={dishImgUrl.find(url => url.includes(dish.image_plate))} 

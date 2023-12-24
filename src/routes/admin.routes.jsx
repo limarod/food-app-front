@@ -10,7 +10,7 @@ import {Payment} from "../pages/payment"
 import {Details} from "../pages/details"
 import {UpdateDish} from "../pages/updateDish"
 
-export function AppRoutes(){
+export function AdminRoutes(){
   return(
     <Routes>
       <Route path="/" element={<Home/>}/>
@@ -22,6 +22,9 @@ export function AppRoutes(){
       <Route path="/payment" element={<Payment/>}/>
       <Route path="/details/:id" element={<Details/>}/>
       <Route path="/updateDish/:id" element={<UpdateDish/>}/>
+
+
+      {/* <Route path="*" exact={true} element={<NotFound/>} /> */}
     </Routes>
   )
 } 

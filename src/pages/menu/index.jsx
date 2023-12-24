@@ -8,10 +8,13 @@ import { useState, useEffect } from "react"
 import { useAuth } from "../../hooks/auth"
 import { useNavigate } from "react-router-dom"
 import { api } from "../../services/api"
+import{USER_ROLE} from "../../utils/roles"
+
 
 export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
 
   const {signOut} = useAuth()
+  const {user} = useAuth()
   // const navigate = useNavigate()
 
   const [search, setSearch] = useState("")
@@ -58,12 +61,14 @@ export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
         </div>
 
    
-
-        <ButtonText 
+        {
+         [USER_ROLE.ADMIN].includes(user.role) &&
+          <ButtonText 
           className="buttonText" 
           title={"Novo prato"}
           to={"/newDish"}
-        />
+          />
+        }
         <div className="border"></div>
         <ButtonText className="buttonText" title={"Sair"} onClick={handleSignOut}/>
         <div className="border"></div>

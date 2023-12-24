@@ -1,11 +1,14 @@
 import { Container } from "./styles";
 import {HiOutlineMenu} from "react-icons/hi"
 import {BiFoodMenu} from "react-icons/bi"
+import {useAuth} from "../../hooks/auth"
 
  
 
 
 export function Header({onOpenMenu}){
+
+  const {user} = useAuth()
 
   const handleOnClick = () =>{
     onOpenMenu();
@@ -17,7 +20,7 @@ export function Header({onOpenMenu}){
         <div>
           <BiFoodMenu />
           <h1>Food explorer</h1>
-          <small>admin</small>    
+          <small>{user.role} - {user.name}</small>    
       </div>
     </Container>
   )
