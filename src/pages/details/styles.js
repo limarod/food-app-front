@@ -43,13 +43,30 @@ li{
     
   }
 
+
+  .AddDishs{
+    display: flex;
+    gap: 1rem;
+
+    align-items: center;
+    justify-content: center;
+    /* margin-top: -7px; */
+    margin-bottom: 7px;
+  }
+
 }
 
 
 `
 export const NewButton = styled(Button)`
   background-color: ${({theme}) => theme.COLORS.BUTTON_COLOR};
+  width: 17rem;
 `
 export const NewButtonText = styled(ButtonText)`
   font-size: 2rem;
+`
+
+export const StyledButtonText2 = styled(ButtonText)`
+  font-size: 2.6rem;
+
 `

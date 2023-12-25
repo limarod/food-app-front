@@ -9,7 +9,7 @@ import {Select} from "../../components/select"
 import {TagItem} from "../../components/tagItem"
 import { useState } from "react";
 import {api} from "../../services/api"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {AiOutlineDown} from "react-icons/ai"
 
@@ -17,6 +17,7 @@ import {AiOutlineDown} from "react-icons/ai"
 
 export function NewDish(){
   const navigate = useNavigate()
+  const params = useParams()
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
@@ -24,6 +25,8 @@ export function NewDish(){
 
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
+
+  const [imgDishFile, setImgDishFile] = useState(null)
 
   function handleAddTag(){
     setIngredients(prevState => [...prevState, newIngredient]);
@@ -52,6 +55,20 @@ export function NewDish(){
       
     };
 
+    // if(imgDishFile){
+    //   const fileUploadForm = new FormData()
+    //   fileUploadForm.append("dishImage", imgDishFile);
+
+    //   try{
+    //   const response = await api.post(`/menu/dishImage`, fileUploadForm );
+    //   console.log(response.data)
+    //   dataDish.image_plate = response.data.dishImage
+    //   }catch(error){
+    //     console.log(error)
+    //     alert("Falha ao fazer upload imagem")
+    //   }
+    // }
+
     if(ingredients.length > 0 ){
       dataDish.ingredients = ingredients
     }
@@ -60,7 +77,14 @@ export function NewDish(){
 
 
     alert("Cadastrado com sucesso.")
-    navigate("/")
+    // navigate("/")
+  }
+
+  function handleChangeImgDish(event){
+    const file = event.target.files[0];
+
+    setImgDishFile(file);
+
   }
 
   return(
@@ -75,6 +99,7 @@ export function NewDish(){
         <Input 
         type="file" 
         placeholder="Selecione imagem"
+        onChange={handleChangeImgDish}
         />
 
         <p>Nome</p>

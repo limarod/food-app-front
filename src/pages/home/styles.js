@@ -1,7 +1,16 @@
-import { styled } from "styled-components";
+import { styled, css} from "styled-components";
 import { ButtonText } from "../../components/buttonText";
+import { Button } from "../../components/button";
+import {PiHeartStraightFill} from "react-icons/pi"
+
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const Container = styled.div`
+
+
   /* height: 100%; */
   /* position: absolute; */
   /* z-index: 2; */
@@ -12,10 +21,6 @@ export const Container = styled.div`
       /* transform: translateX(0); */
     }
     
-  }
-
-  li{
-    list-style: none;
   }
 
   .homeImg{
@@ -65,9 +70,23 @@ export const Container = styled.div`
     gap: 2.4rem;
   }
 
+  li{
+    list-style: none;
+    /* background-color: red; */
+
+
+
+    &:last-child{
+      /* transform: translateX(20px); */
+      /* margin-right: 80px; */
+
+    }
+
+  }
+
   .backgroundCard{
-    width: 15rem;
-    height: 20rem;
+    width: 100%;
+    height: 25rem;
     background-color: ${({theme}) => theme.COLORS.CardsBackground};
     position: relative;
 
@@ -79,29 +98,48 @@ export const Container = styled.div`
     align-items: center;
     padding: 1.6rem;
 
+
     >h4{
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 400;
       margin-bottom: 1rem;
     }
+
+
     
     span{
-    >svg{
-      font-size: 2rem;
-      color: white;
+      >svg{
+        font-size: 2rem;
+        color: white;
 
-      margin-bottom: 1rem;
-      margin-left: 9rem;
+        margin-bottom: 1rem;
+        margin-left: 9rem;
+      }
     }
-  }
 
-  .imgDISH{
-    width: 100%;
-    height: 100%;
-    margin: 5px 0 8px 0 ;
-  }
+    .imgDISH{
+      width: 100%;
+      height: auto;
+      margin: 5px 0 12px 0 ;
+    }
+
+    .AddDishs{
+      display: flex;
+      gap: 1rem;
+
+      align-items: center;
+
+      /* margin-top: -7px; */
+      margin-bottom: 7px;
+
+      p{
+        font-size: 1.2rem;
+      }
+    }
+  
+
  
-}
+  }
 `
 
 export const StyledButtonText = styled(ButtonText)`
@@ -110,3 +148,48 @@ export const StyledButtonText = styled(ButtonText)`
   right: 6px;
   top: 6px;
 `
+
+export const StyledButtonText2 = styled(ButtonText)`
+  font-size: 2.6rem;
+
+`
+
+
+export const StyledButton = styled(Button)`
+  height: 100%;
+  padding: 0.4rem 2.9rem;
+  /* width: 5rem; */
+  background-color:  ${({theme}) => theme.COLORS.BUTTON_COLOR};
+`
+
+export const StyledFilledHeartIcon = styled(PiHeartStraightFill)`
+  color: red;
+
+`;
+
+
+export const CustomSlider = styled(Slider)`
+  .slick-track {
+    display: flex !important;
+    justify-content: space-around;
+    /* align-items: center; */
+    gap: 5px;
+    /* margin-left: 29.5px; */
+  }
+
+  .slick-dots{
+    li {
+      button {
+        &::before {
+          color: white;
+
+        }
+      }
+    }
+  }
+
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
+  `;

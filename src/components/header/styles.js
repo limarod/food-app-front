@@ -31,9 +31,29 @@ export const Container = styled.header`
   svg{
     font-size: 2.4rem;
     cursor: pointer;
+
   }
 
   >div svg{
     color: #065E7C;
+  }
+
+  .thirdDiv{
+    position: relative;
+
+    svg{
+      color: white;
+    }
+    
+    span{
+      background-color: #9a0526;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      padding: 0.12rem 0.34rem 0.14rem 0.36rem;
+      position: absolute;
+
+      top: -4px;
+      right: -4px;
+    }
   }
 `

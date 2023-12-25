@@ -1,9 +1,10 @@
-import {Container, StyledButtonText} from "./styles"
+import {Container, StyledButtonText, StyledButtonText2, StyledButton, StyledFilledHeartIcon, CustomSlider} from "./styles"
 import {Header} from "../../components/header"
 import {Footer} from "../../components/footer"
 import macarrons from "../../assets/macarrons.png"
 import salada_rav from "../../assets/Dish - Salada Ravanello.png"
-import {PiPencilSimpleLight} from "react-icons/pi"
+import {PiPencilSimpleLight, PiHeartStraight, PiHeartStraightFill } from "react-icons/pi"
+import {AiOutlineMinus , AiOutlinePlus } from "react-icons/ai"
 import {Menu} from "../menu"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
@@ -12,6 +13,12 @@ import { Button } from "../../components/button"
 import { api } from "../../services/api"
 import {useAuth} from "../../hooks/auth"
 import{USER_ROLE} from "../../utils/roles"
+
+
+
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css"
 
 
 export function Home (){
@@ -43,11 +50,12 @@ export function Home (){
 
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
-
+  const [heartIcon, setHeartIcon] = useState(<PiHeartStraight/>)
+  const [dishsNumberOrder, setDishsNumberOrder] = useState(1)
+  const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
 
   
   const dishImgUrl = dishs.map(dish => `${api.defaults.baseURL}/files/${dish.image_plate}`)
-  console.log(dishImgUrl)
 
   function handleUpdateDish(dishId){
     navigate(`/updateDish/${dishId}`)
@@ -60,8 +68,38 @@ export function Home (){
   function handleSearchCompleted(data){
     setDishs(data)
   }
-  
 
+  function toogleHeartIcon(){
+    setHeartIcon((prevIcon) => prevIcon.type === PiHeartStraight ? <StyledFilledHeartIcon/> : <PiHeartStraight/>)
+  }
+  
+  function addDishsOrder(dishId){
+    
+    setDishsNumberOrder(prevState => ({
+      ...prevState,
+      [dishId]: (prevState[dishId] || 1) + 1,
+    }));
+
+
+  }
+
+  function minusDishOrder(dishId){
+
+    setDishsNumberOrder((prevState) => {
+      const currentCount = prevState[dishId] || 1;
+      if(currentCount > 0){
+        return{
+          ...prevState, [dishId]: currentCount - 1,
+        };
+      }
+      return prevState;
+    })
+    
+  }
+
+  function addToCartShopping(){
+    setShoppingCartNumber((prevNumber) => prevNumber + 1)
+  }
 
   return(
 
@@ -74,18 +112,22 @@ export function Home (){
       />
       <div className="sideMenuHidden" data-hidden-below-menu={menuIsOpen} >
         <Header 
+
           onOpenMenu={() => {
               setMenuIsOpen(true);
+
               // setHiddenBelowMenu(true)
             }
           }
+          shoppingCartNumber={shoppingCartNumber}
+          setShoppingCartNumber={setShoppingCartNumber}
         />
         <div className="content">
           <div className="homeImg">
             <img src={macarrons} alt="imagem de macarrons e frutas" />
             <div className="homeImgBackground">
               <h2>Sabores inigualáveis</h2>
-              <p>Sinto o cuidado do preparo com ingredientes selecionados</p>
+              <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
             </div>
           </div>
 
@@ -93,16 +135,39 @@ export function Home (){
             <div className="cardsEntrada">
               <h3>Entradas</h3>
               
+              <CustomSlider
+                dots={true}
+                infinite={true}
+                speed={500}
+                slidesToShow={2}
+                slidesToScroll={1}  
+                // initialSlide={0}
+              >
               {
-                dishs && dishs.map(dish => (
+                dishs && 
+                
+                dishs.map(dish => (
                   <li key={dish.id.toString()}>
                     <div className="backgroundCard">
-                      { [USER_ROLE.ADMIN].includes(user.role) &&
-                      <StyledButtonText title={<PiPencilSimpleLight/>} 
-                      onClick ={(event) => {
+                      
+                      { 
+                        [USER_ROLE.ADMIN].includes(user.role) &&
+                        <StyledButtonText title={<PiPencilSimpleLight/>} 
+                        onClick ={(event) => {
                         event.preventDefault();
                         handleUpdateDish(dish.id)}}
                         // to={"/updateDish/25"} 
+                        />
+                      }
+                      {
+                        [USER_ROLE.CUSTOMER].includes(user.role) &&
+                        <StyledButtonText title={heartIcon} 
+                        onClick ={(event) => {
+                        event.preventDefault();
+                        toogleHeartIcon()
+                        }}
+                        // to={"/updateDish/25"} 
+                        // handleUpdateDish(dish.id)
                         />
                       }
                     
@@ -115,11 +180,29 @@ export function Home (){
                           className="imgDISH"
                       />
                         <h4> {dish.name} </h4>
-                      <h4> {dish.price}</h4>
+                        <h4> {dish.price}</h4>
+                        {  
+                          [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <div className="AddDishs">
+                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+
+                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                            </div>
+                          }
+                          {
+                            [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <StyledButton title={"Incluir"} onClick={addToCartShopping} />
+                          }
+                          
+
+
                     </div>
                   </li>
                 ))
+                
               }
+              </CustomSlider>
             </div>
 
             <div className="cardsRefeicao">
