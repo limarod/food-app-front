@@ -1,5 +1,5 @@
 import {Container} from "./styles"
-import { Header } from "../../components copy/header"
+// import { Header } from "../../components copy/header"
 import { Footer } from "../../components/footer"
 import {VscCircleFilled} from "react-icons/vsc"
 import {ButtonText} from "../../components/buttonText"

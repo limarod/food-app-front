@@ -1,5 +1,5 @@
 import {Container} from "./styles"
-import { Header } from "../../components copy/header"
+// import { Header } from "../../components copy/header"
 import { Footer } from "../../components/footer"
 import {ButtonText} from "../../components/buttonText"
 import {Button} from "../../components/button"

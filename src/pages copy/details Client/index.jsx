@@ -1,6 +1,6 @@
 
 import { Container, NewButton, NewButtonText } from "./styles"
-import {Header} from "../../components copy/header"
+// import {Header} from "../../components copy/header"
 import {Footer} from "../../components/footer"
 import {Tag} from "../../components/tag"
 import dishimage from "../../assets/Dish - Salada Ravanello.png"

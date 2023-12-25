@@ -50,7 +50,7 @@ export function Home (){
 
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
-  const [heartIcon, setHeartIcon] = useState(<PiHeartStraight/>)
+  const [heartIcon, setHeartIcon] = useState({})
   const [dishsNumberOrder, setDishsNumberOrder] = useState(1)
   const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
 
@@ -69,8 +69,25 @@ export function Home (){
     setDishs(data)
   }
 
-  function toogleHeartIcon(){
-    setHeartIcon((prevIcon) => prevIcon.type === PiHeartStraight ? <StyledFilledHeartIcon/> : <PiHeartStraight/>)
+  function toogleHeartIcon(dishId){
+
+    setHeartIcon((prevIcon) =>{
+      const updatedIcons = { ...prevIcon };
+
+    // Verifica se o ícone para o dishId já existe no estado
+    if (!updatedIcons[dishId]) {
+      // Se não existir, inicializa com o ícone do coração preenchido
+      updatedIcons[dishId] = <StyledFilledHeartIcon />;
+    } else {
+      // Se existir, alterna entre preenchido e vazio
+      updatedIcons[dishId] = (updatedIcons[dishId].type === PiHeartStraight) 
+        ? <StyledFilledHeartIcon />
+        : <PiHeartStraight/>;
+    }
+    console.log(updatedIcons)
+      return updatedIcons
+      
+    })
   }
   
   function addDishsOrder(dishId){
@@ -156,18 +173,15 @@ export function Home (){
                         onClick ={(event) => {
                         event.preventDefault();
                         handleUpdateDish(dish.id)}}
-                        // to={"/updateDish/25"} 
                         />
                       }
                       {
                         [USER_ROLE.CUSTOMER].includes(user.role) &&
-                        <StyledButtonText title={heartIcon} 
+                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
                         onClick ={(event) => {
                         event.preventDefault();
-                        toogleHeartIcon()
+                        toogleHeartIcon(dish.id)
                         }}
-                        // to={"/updateDish/25"} 
-                        // handleUpdateDish(dish.id)
                         />
                       }
                     
