@@ -33,7 +33,7 @@ export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
   useEffect(() =>{
     async function handleSearch(){
       const response = await api.get(`/menu?name=${search}&ingredients=${search}`)
-      console.log("RESPONSE FROM MENU", response.data)
+      // console.log("RESPONSE FROM MENU", response.data)
       onSearchComplete(response.data)
       
     }
@@ -48,16 +48,16 @@ export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
         <div className="input">
 
           <Input 
-            icon={BsSearch} 
+            icon={ BsSearch } 
             type="text" 
             placeholder="Busque por pratos ou ingredientes"
             onChange={(e) => setSearch( e.target.value)}
           />
-
+                {/* 
             <ButtonText
               title={"Pesquisar"}
               onClick={() => onCloseMenu()}
-            />
+            /> */}
         </div>
 
    

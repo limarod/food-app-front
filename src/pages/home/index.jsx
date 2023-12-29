@@ -7,13 +7,12 @@ import {PiPencilSimpleLight, PiHeartStraight, PiHeartStraightFill } from "react-
 import {AiOutlineMinus , AiOutlinePlus } from "react-icons/ai"
 import {Menu} from "../menu"
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { ButtonText } from "../../components/buttonText"
 import { Button } from "../../components/button"
 import { api } from "../../services/api"
 import {useAuth} from "../../hooks/auth"
 import{USER_ROLE} from "../../utils/roles"
-
 
 
 import Slider from "react-slick";
@@ -24,29 +23,11 @@ import "slick-carousel/slick/slick-theme.css"
 export function Home (){
 
 
-    // useEffect(() => {
-  //   const handleMessage = (event) => {
-  //     console.log('Received MessageEvent:', event);
-  //   };
-
-  //   window.addEventListener('message', handleMessage);
-
-  //   return () => {
-  //     window.removeEventListener('message', handleMessage);
-  //   };
-  // }, []);
-
-//   Busca no Código-Fonte:
-
-// Procure no seu código por chamadas postMessage ou por qualquer código que envie mensagens entre janelas ou frames.
-// Extensões do Navegador:
-
-// Verifique se há extensões do navegador instaladas que possam estar interagindo com sua aplicação.
-// Libs Externas:
-
-// Se você estiver usando bibliotecas externas, verifique a documentação para garantir que não esteja ocorrendo alguma comunicação inesperada.
   const navigate = useNavigate()
-  const {user} = useAuth()
+  const params = useParams()
+
+  const {user, addToCartShopping} = useAuth()
+
 
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
@@ -112,10 +93,6 @@ export function Home (){
       return prevState;
     })
     
-  }
-
-  function addToCartShopping(){
-    setShoppingCartNumber((prevNumber) => prevNumber + 1)
   }
 
   return(
@@ -206,7 +183,10 @@ export function Home (){
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <StyledButton title={"Incluir"} onClick={addToCartShopping} />
+                            <StyledButton 
+                              title={"Incluir"} 
+                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                            />
                           }
                           
 
@@ -262,3 +242,27 @@ export function Home (){
     </Container>
   )
 }
+
+
+
+    // useEffect(() => {
+  //   const handleMessage = (event) => {
+  //     console.log('Received MessageEvent:', event);
+  //   };
+
+  //   window.addEventListener('message', handleMessage);
+
+  //   return () => {
+  //     window.removeEventListener('message', handleMessage);
+  //   };
+  // }, []);
+
+//   Busca no Código-Fonte:
+
+// Procure no seu código por chamadas postMessage ou por qualquer código que envie mensagens entre janelas ou frames.
+// Extensões do Navegador:
+
+// Verifique se há extensões do navegador instaladas que possam estar interagindo com sua aplicação.
+// Libs Externas:
+
+// Se você estiver usando bibliotecas externas, verifique a documentação para garantir que não esteja ocorrendo alguma comunicação inesperada.

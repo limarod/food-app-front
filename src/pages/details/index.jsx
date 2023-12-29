@@ -17,10 +17,11 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 
 export function Details(){
-  const {user} = useAuth()
+  const {user, addToCartShopping} = useAuth()
 
   const [data, setData] = useState(null)
   const [dishsNumberOrder, setDishsNumberOrder] = useState(1)
+  const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
 
   const params = useParams();
   const navigate = useNavigate()
@@ -41,13 +42,17 @@ export function Details(){
     setDishsNumberOrder(dishsNumberOrder - 1);   
   }
 
+  // function addToCartShopping(DishId){
+  //   setShoppingCartNumber((prevNumber) => prevNumber + 1)
+  
+  // }
   
   useEffect(() =>{
     async function fetchDishDetails(){
       const response = await api.get(`/menu/${params.id}`);
       
       setData(response.data);
-      console.log(data)
+      // console.log(data)
     }
 
     fetchDishDetails();
@@ -63,7 +68,10 @@ export function Details(){
 
   return (
     <Container>
-      <Header/>
+      <Header       
+        shoppingCartNumber={shoppingCartNumber}
+        setShoppingCartNumber={setShoppingCartNumber}
+      />
 
         { data &&
 
@@ -107,12 +115,9 @@ export function Details(){
                 <NewButton 
                   icon={PiReceipt}
                   title={` pedir -  ${data.price}` }
-                  onClick ={(event) => {
-                    event.preventDefault();
-                    handleUpdateDish(data.id)}}
+                  onClick ={(event) => {event.preventDefault() ; addToCartShopping()}}
                 />
               </div>
-
             }
            
            

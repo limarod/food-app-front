@@ -9,13 +9,10 @@ import { useNavigate } from "react-router-dom"
 
 
 
-export function Header({onOpenMenu }){
+export function HeaderWreceipt({onOpenMenu, shoppingCartNumber }){
  const navigate = useNavigate()
- const {user, addToCartShopping, shoppingCartNumber} = useAuth()
+ const {user} = useAuth()
 
-  function handleGoToShoppingCart(){
-    navigate("/order")
-  }
     
   const handleOnClick = () =>{
     onOpenMenu();
@@ -34,13 +31,13 @@ export function Header({onOpenMenu }){
             <small>{user.role} - {user.name}</small>    
           }
 
-          {
+          {/* {
             [USER_ROLE.CUSTOMER].includes(user.role) &&
             <div className="thirdDiv">
             <PiReceipt onClick={handleGoToShoppingCart}/>
             <span>{shoppingCartNumber}</span>
             </div>
-          }
+          } */}
         </div>
     </Container>
   )

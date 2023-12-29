@@ -7,6 +7,7 @@ function AuthProvider({children}){
   const [data, setData] = useState({})
   const [dishs, setDishs] = useState()
    
+  const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
 
   async function signIn({email, password}){
     try {
@@ -66,6 +67,13 @@ function AuthProvider({children}){
     }
   }
 
+
+  function addToCartShopping(){
+     setShoppingCartNumber((prevState) => prevState + 1 )
+  }
+
+     
+  
     useEffect(() => {
         const user = localStorage.getItem("@foodExplorer:user");
 
@@ -79,6 +87,8 @@ function AuthProvider({children}){
 
     return (
       <AuthContext.Provider value={{
+        addToCartShopping,
+        shoppingCartNumber,
         signIn,
         signOut,
         updateProfile,

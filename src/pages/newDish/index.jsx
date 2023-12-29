@@ -17,7 +17,6 @@ import {AiOutlineDown} from "react-icons/ai"
 
 export function NewDish(){
   const navigate = useNavigate()
-  const params = useParams()
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
@@ -27,6 +26,9 @@ export function NewDish(){
   const [newIngredient, setNewIngredient] = useState("");
 
   const [imgDishFile, setImgDishFile] = useState(null)
+
+  const fileUploadForm = new FormData()
+  fileUploadForm.append("dishImage", imgDishFile);
 
   function handleAddTag(){
     setIngredients(prevState => [...prevState, newIngredient]);
@@ -39,6 +41,7 @@ export function NewDish(){
 
   async function handleAddNewDish(){
     
+
     if(newIngredient){
       return alert("Você não adicionou o ingrediente preenchido")
     }
@@ -47,37 +50,32 @@ export function NewDish(){
       return alert(`Os campos "nome" e "preço" são obrigatórios`)
     }
 
-    const dataDish = {
-      name, 
-      category, 
-      description, 
-      price,
+
+    const dataDish = new FormData()
+
+      dataDish.append("name", name);
+      dataDish.append("category", category);
+      dataDish.append("description", description);
+      dataDish.append("price",price);
       
-    };
-
-    // if(imgDishFile){
-    //   const fileUploadForm = new FormData()
-    //   fileUploadForm.append("dishImage", imgDishFile);
-
-    //   try{
-    //   const response = await api.post(`/menu/dishImage`, fileUploadForm );
-    //   console.log(response.data)
-    //   dataDish.image_plate = response.data.dishImage
-    //   }catch(error){
-    //     console.log(error)
-    //     alert("Falha ao fazer upload imagem")
-    //   }
-    // }
 
     if(ingredients.length > 0 ){
-      dataDish.ingredients = ingredients
+      ingredients.forEach((tag, index) =>{
+
+        dataDish.append(`ingredients[${index}]`, tag)
+      })
     }
+
+    if(imgDishFile){
+       dataDish.append("dishImage", imgDishFile)
+    }
+
     
     await api.post("/menu", dataDish)
 
 
     alert("Cadastrado com sucesso.")
-    // navigate("/")
+    navigate("/")
   }
 
   function handleChangeImgDish(event){
@@ -86,6 +84,9 @@ export function NewDish(){
     setImgDishFile(file);
 
   }
+
+
+  
 
   return(
     <Container>

@@ -1,5 +1,6 @@
 import {Container} from "./styles"
-// import { Header } from "../../components copy/header"
+import { Header } from "../../components/header"
+import { HeaderWreceipt } from "../../components/headerWreceipt"
 import { Footer } from "../../components/footer"
 import {ButtonText} from "../../components/buttonText"
 import {Button} from "../../components/button"
@@ -8,7 +9,7 @@ import dishimage from "../../assets/Dish - Salada Ravanello.png"
 export function Order(){
   return(
     <Container>
-      <Header/>
+      <HeaderWreceipt/>
         <main>
           <h1>Meu pedido</h1>
           <div className="dishsContainer">
