@@ -65,6 +65,7 @@ export function SignUp(){
           onChange={(event) => setPassword(event.target.value) }
         />
         <NewButton  
+          className="buttonSignUp"
           title={"Cadastrar"}
           onClick={handleSignUp}
         />

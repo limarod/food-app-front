@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { ButtonText } from "../../components/buttonText";
 
        
 export const Container = styled.div`
@@ -55,4 +56,10 @@ export const Container = styled.div`
   footer{
     margin-top: 5rem;
   }
+`
+
+export const NewButtonText = styled(ButtonText)`
+
+  font-size: 2rem;
+  margin-top: 3rem;
 `

@@ -68,7 +68,9 @@ export function Details(){
 
   return (
     <Container>
+      
       <Header       
+        currentPage="details"
         shoppingCartNumber={shoppingCartNumber}
         setShoppingCartNumber={setShoppingCartNumber}
       />
@@ -97,7 +99,7 @@ export function Details(){
               </div>
              
             { [USER_ROLE.ADMIN].includes(user.role) &&
-              <NewButton 
+              <NewButton className="buttonDetails"
                 title={"Editar prato"}
                 onClick ={(event) => {
                   event.preventDefault();
@@ -113,6 +115,7 @@ export function Details(){
                 <StyledButtonText2 title={< AiOutlinePlus/>} onClick={addDishsOrder}/>
     
                 <NewButton 
+                  className="buttonDetails"
                   icon={PiReceipt}
                   title={` pedir -  ${data.price}` }
                   onClick ={(event) => {event.preventDefault() ; addToCartShopping()}}

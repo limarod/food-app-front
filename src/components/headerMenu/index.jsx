@@ -3,6 +3,7 @@ import {AiOutlineClose} from "react-icons/ai"
 
 
 export function HeaderMenu({onCloseMenu}){
+  
   return(
     <Container>
       <AiOutlineClose onClick={onCloseMenu}/>

@@ -3,10 +3,12 @@ import {styled} from "styled-components"
 
 export const Container = styled.div`
 
+display: flex;
+flex-direction: column;
 
-
-.content{
+>.content{
   padding: 1.6rem;
+  flex: 1;
 }
 
 h1{

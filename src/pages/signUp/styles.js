@@ -60,5 +60,7 @@ export const Form = styled.form`
 `;
 
 export const NewButton = styled(Button)`
- background-color: ${({theme}) => theme.COLORS.BUTTON_COLOR};
+  &.buttonSignUp{
+    background-color: ${({theme}) => theme.COLORS.BUTTON_COLOR};
+  }
 `

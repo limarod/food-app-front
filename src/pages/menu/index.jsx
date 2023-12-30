@@ -11,14 +11,13 @@ import { api } from "../../services/api"
 import{USER_ROLE} from "../../utils/roles"
 
 
-export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
+export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
 
   const {signOut} = useAuth()
   const {user} = useAuth()
   // const navigate = useNavigate()
 
   const [search, setSearch] = useState("")
-
 
   // function handleNewPlatepath(){
   //   navigate("/newDish") 
@@ -27,7 +26,6 @@ export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
   function handleSignOut(){
     signOut()
   }
-
 
    
   useEffect(() =>{
@@ -41,7 +39,7 @@ export function Menu({menuIsOpen, onCloseMenu, onSearchComplete  }){
   },[search])
 
   return(
-    <Container data-menu-is-open={menuIsOpen}>
+    <Container data-menu-is-open={sideMenuIsOpen}>
       <HeaderMenu onCloseMenu={onCloseMenu}/>
 
       <div className="content">

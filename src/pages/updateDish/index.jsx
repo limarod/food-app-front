@@ -1,4 +1,4 @@
-import { Container } from "./styles";
+import { Container, NewButton } from "./styles";
 import { Header} from "../../components/header"
 import { Footer} from "../../components/footer"
 import {Input} from "../../components/input"
@@ -251,12 +251,14 @@ export function UpdateDish(){
             // defaultValue ="A Salada Ceasar é um opção refrescasnte para o verão "
           />
           <div className="buttonsDiv">
-            <Button 
+            <NewButton 
+              className="removeButton"
               title={"Excluir prato"}
               onClick={handleDeleteDish}
             />
             
-            <Button 
+            <NewButton 
+              className="saveButton"
               title={"Salvar alterações"} 
               onClick={handleUpdateDish}
               />

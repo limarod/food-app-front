@@ -4,6 +4,9 @@ import { ButtonText } from "../../components/buttonText"
 
 export const Container = styled.div`
 
+display: flex;
+flex-direction: column;
+
 li{
   list-style: none;
 }
@@ -14,8 +17,12 @@ li{
 
 .containerDetails{
   padding: 0 3.5rem;
+  /* padding:0 1.0rem 0 2.4rem ; */
   margin:  3rem 0 4rem;
   text-align: center;
+
+
+  flex: 1;
 
   img{
     margin: 1.6rem 0;
@@ -50,8 +57,8 @@ li{
 
     align-items: center;
     justify-content: center;
-    /* margin-top: -7px; */
     margin-bottom: 7px;
+
   }
 
 }
@@ -59,8 +66,12 @@ li{
 
 `
 export const NewButton = styled(Button)`
-  background-color: ${({theme}) => theme.COLORS.BUTTON_COLOR};
-  width: 17rem;
+
+  &.buttonDetails{
+    background-color: ${({theme}) => theme.COLORS.BUTTON_COLOR};
+    margin: auto;
+    max-width: 45rem;
+}
 `
 export const NewButtonText = styled(ButtonText)`
   font-size: 2rem;

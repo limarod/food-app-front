@@ -41,7 +41,10 @@ export function SignIn(){
           icon={FiLock}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <NewButton  title={"Entrar"} onClick={handleSignIn}/>
+        <NewButton  
+          className="buttonSignIn"
+          title={"Entrar"} onClick={handleSignIn}
+         />
 
         <div className="p1">
          <ButtonText title={"Criar uma conta"} to="/register"/>

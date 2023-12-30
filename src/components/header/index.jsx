@@ -4,12 +4,11 @@ import {BiFoodMenu} from "react-icons/bi"
 import {useAuth} from "../../hooks/auth"
 import {USER_ROLE} from "../../utils/roles"
 import {PiReceipt} from "react-icons/pi"
-import { useState } from "react";
 import { useNavigate } from "react-router-dom"
 
 
 
-export function Header({onOpenMenu }){
+export function Header({onOpenMenu, currentPage }){
  const navigate = useNavigate()
  const {user, addToCartShopping, shoppingCartNumber} = useAuth()
 
@@ -17,31 +16,37 @@ export function Header({onOpenMenu }){
     navigate("/order")
   }
     
-  const handleOnClick = () =>{
-    onOpenMenu();
-  }
-
-
   return (
     <Container>
-      
-      <HiOutlineMenu onClick={handleOnClick } />
-        <div>
-          <BiFoodMenu />
-          <h1>Food explorer</h1>
-          { 
-            [USER_ROLE.ADMIN].includes(user.role) &&
-            <small>{user.role} - {user.name}</small>    
-          }
+      <div className="content">
+          {currentPage === 'home' && <HiOutlineMenu onClick={onOpenMenu } />}
+          <div className="secondDiv">
+            <BiFoodMenu />
+            <h1>Food explorer</h1>
+          </div>
 
           {
             [USER_ROLE.CUSTOMER].includes(user.role) &&
             <div className="thirdDiv">
-            <PiReceipt onClick={handleGoToShoppingCart}/>
-            <span>{shoppingCartNumber}</span>
+            {
+              (currentPage === 'home' || currentPage === 'details') &&
+              <PiReceipt onClick={handleGoToShoppingCart}/>
+            }
+
+            {
+              (currentPage === 'home' || currentPage === 'details') &&
+              <span>{shoppingCartNumber}</span>
+            }
             </div>
           }
-        </div>
+
+          { 
+            [USER_ROLE.ADMIN].includes(user.role) &&
+            <div  className="fourthdDiv">
+              <small>{user.role}</small> <small> {user.name}</small>    
+            </div>
+          }
+      </div>
     </Container>
   )
 }

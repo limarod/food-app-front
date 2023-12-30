@@ -1,4 +1,4 @@
-import {Container} from "./styles"
+import {Container, NewButtonText} from "./styles"
 import { Header } from "../../components/header"
 import { HeaderWreceipt } from "../../components/headerWreceipt"
 import { Footer } from "../../components/footer"
@@ -6,11 +6,13 @@ import {ButtonText} from "../../components/buttonText"
 import {Button} from "../../components/button"
 import dishimage from "../../assets/Dish - Salada Ravanello.png"
 
+
 export function Order(){
   return(
     <Container>
-      <HeaderWreceipt/>
+      <Header currentPage="order"/>
         <main>
+        <NewButtonText title={"Voltar"} to="/"/>
           <h1>Meu pedido</h1>
           <div className="dishsContainer">
             <img src={dishimage} alt="imagem de macarrons e frutas" />

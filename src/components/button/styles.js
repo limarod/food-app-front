@@ -12,7 +12,8 @@ export const Container = styled.button`
   
 
   width: 100%;
-  height: 4.8rem;
+  height: 3.4rem;
+  padding: 0.4rem 2.9rem;
   font-size: 1.2rem;
   border-radius: 0.6rem;
 

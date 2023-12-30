@@ -7,8 +7,9 @@ export const Container = styled.div`
     flex-direction: column;
     background-color: ${({theme}) => theme.COLORS.PrimaryBackground};
     transform: translateX(-100%);
-    transition: transform 0.7s ;
+    transition: transform 0.5s ease-out;
     position: absolute;
+    z-index: 1;
 
     &[data-menu-is-open="true"]{
       transform: translateX(0);
@@ -16,6 +17,7 @@ export const Container = styled.div`
 
   .content{
     padding: 0 2.1rem;
+    flex: 1;
 
     .buttonText{
       font-size: 1.8rem;

@@ -29,7 +29,7 @@ export function Home (){
   const {user, addToCartShopping} = useAuth()
 
 
-  const [menuIsOpen, setMenuIsOpen] = useState(false)
+  const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
   const [heartIcon, setHeartIcon] = useState({})
   const [dishsNumberOrder, setDishsNumberOrder] = useState(1)
@@ -55,9 +55,9 @@ export function Home (){
     setHeartIcon((prevIcon) =>{
       const updatedIcons = { ...prevIcon };
 
-    // Verifica se o ícone para o dishId já existe no estado
-    if (!updatedIcons[dishId]) {
-      // Se não existir, inicializa com o ícone do coração preenchido
+    // Verifica se o ícone para o dishId já existe no estado 
+    // Se não existir, inicializa com o ícone do coração preenchido
+    if (!updatedIcons[dishId]) { 
       updatedIcons[dishId] = <StyledFilledHeartIcon />;
     } else {
       // Se existir, alterna entre preenchido e vazio
@@ -95,27 +95,23 @@ export function Home (){
     
   }
 
+
+
   return(
-
-
     <Container>
       <Menu 
-        menuIsOpen={menuIsOpen}
-        onCloseMenu={()=> setMenuIsOpen(false)}
+        sideMenuIsOpen={sideMenuIsOpen}
+        onCloseMenu={()=> setSideMenuIsOpen(false)}
         onSearchComplete={handleSearchCompleted}
       />
-      <div className="sideMenuHidden" data-hidden-below-menu={menuIsOpen} >
-        <Header 
 
-          onOpenMenu={() => {
-              setMenuIsOpen(true);
-
-              // setHiddenBelowMenu(true)
-            }
-          }
+        <Header className="header"
+          onOpenMenu={() => {setSideMenuIsOpen(true)}}
+          currentPage="home"
           shoppingCartNumber={shoppingCartNumber}
           setShoppingCartNumber={setShoppingCartNumber}
         />
+
         <div className="content">
           <div className="homeImg">
             <img src={macarrons} alt="imagem de macarrons e frutas" />
@@ -125,6 +121,8 @@ export function Home (){
             </div>
           </div>
 
+        
+
           <div className="main">
             <div className="cardsEntrada">
               <h3>Entradas</h3>
@@ -133,14 +131,93 @@ export function Home (){
                 dots={true}
                 infinite={true}
                 speed={500}
-                slidesToShow={2}
+                // slidesToShow={dishs.filter(dish => dish.category === "Entrada").length > 1 ? 2 : 1}
+                // slidesToShowMobile={dishs.filter(dish => dish.category === "Entrada").length > 1 ? 2 : 4}
+                className={dishs.filter(dish => dish.category === "Entrada").length > 1 ? "" : "single-slide"}
                 slidesToScroll={1}  
                 // initialSlide={0}
               >
               {
                 dishs && 
-                
-                dishs.map(dish => (
+           
+                dishs.filter(dish => dish.category === "Entrada")
+                .map(dish => (
+                  <li key={dish.id.toString()}>
+                    <div className="backgroundCard">
+                      
+                      { 
+                        [USER_ROLE.ADMIN].includes(user.role) &&
+                        <StyledButtonText title={<PiPencilSimpleLight/>} 
+                        onClick ={(event) => {
+                        event.preventDefault();
+                        handleUpdateDish(dish.id)}}
+                        />
+                      }
+                      {
+                        [USER_ROLE.CUSTOMER].includes(user.role) &&
+                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
+                        onClick ={(event) => {
+                        event.preventDefault();
+                        toogleHeartIcon(dish.id)
+                        }}
+                        />
+                      }
+                    
+                      <img 
+                        src={dishImgUrl.find(url => url.includes(dish.image_plate))} 
+                        alt=""
+                        onClick={(event) => {
+                          event.preventDefault()
+                          handleDetails(dish.id)}}
+                          className="imgDISH"
+                      />
+                        <div className="name-Price">
+                          <h4> {dish.name} </h4>
+                          <h3> {dish.price}</h3>
+                        </div>
+                        {  
+                          [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <div className="AddDishs">
+                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+
+                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                            </div>
+                          }
+                          {
+                            [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <StyledButton className="buttonHome"
+                              title={"Incluir"} 
+                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                            />
+                          }
+                          
+
+
+                    </div>
+                  </li>
+                ))
+                        
+              }
+              </CustomSlider>
+            </div>
+
+            <div className="cardsRefeicao">
+              <h3>Refeições</h3>
+              <CustomSlider
+                dots={true}
+                infinite={true}
+                speed={500}
+                slidesToShow={dishs.filter(dish => dish.category === "Refeição").length > 1 ? 2 : 1}
+                className={dishs.filter(dish => dish.category === "Refeição").length > 1 ? "" : "single-slide"}
+                slidesToScroll={1}  
+                // initialSlide={0}
+              >
+              {
+                dishs && 
+           
+                dishs.filter(dish => dish.category === "Refeição")
+                .map(dish => (
                   <li key={dish.id.toString()}>
                     <div className="backgroundCard">
                       
@@ -184,6 +261,7 @@ export function Home (){
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <StyledButton 
+                              className="buttonHome"
                               title={"Incluir"} 
                               onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
                             />
@@ -194,51 +272,168 @@ export function Home (){
                     </div>
                   </li>
                 ))
-                
+              
               }
               </CustomSlider>
             </div>
 
-            <div className="cardsRefeicao">
-              <h3>Refeições
-              
-              </h3>
-              <div className="backgroundCard">
-                <span><PiPencilSimpleLight/></span>
-                <img src="" alt="" />
-                <h4>Salada Ravanello</h4>
-                <h4>R$ 49,90</h4>
-              </div>
-            </div>
-
             <div className="cardsBebida">
               <h3>Bebidas</h3>
-              <div className="backgroundCard">
-                <span><PiPencilSimpleLight/></span>
-                <img src="" alt="" />
-                <h4>Salada Ravanello</h4>
-                <h4>R$ 49,90</h4>
-              </div>
+              <CustomSlider
+                dots={true}
+                infinite={true}
+                speed={500}
+                slidesToShow={dishs.filter(dish => dish.category === "Bebida").length > 1 ? 2 : 1}
+                className={dishs.filter(dish => dish.category === "Bebida").length > 1 ? "" : "single-slide"}
+                slidesToScroll={1}  
+                // initialSlide={0}
+              >
+              {
+                dishs && 
+           
+                dishs.filter(dish => dish.category === "Bebida")
+                .map(dish => (
+                  <li key={dish.id.toString()}>
+                    <div className="backgroundCard">
+                      
+                      { 
+                        [USER_ROLE.ADMIN].includes(user.role) &&
+                        <StyledButtonText title={<PiPencilSimpleLight/>} 
+                        onClick ={(event) => {
+                        event.preventDefault();
+                        handleUpdateDish(dish.id)}}
+                        />
+                      }
+                      {
+                        [USER_ROLE.CUSTOMER].includes(user.role) &&
+                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
+                        onClick ={(event) => {
+                        event.preventDefault();
+                        toogleHeartIcon(dish.id)
+                        }}
+                        />
+                      }
+                    
+                      <img 
+                        src={dishImgUrl.find(url => url.includes(dish.image_plate))} 
+                        alt=""
+                        onClick={(event) => {
+                          event.preventDefault()
+                          handleDetails(dish.id)}}
+                          className="imgDISH"
+                      />
+                        <h4> {dish.name} </h4>
+                        <h4> {dish.price}</h4>
+                        {  
+                          [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <div className="AddDishs">
+                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+
+                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                            </div>
+                          }
+                          {
+                            [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <StyledButton 
+                              className="buttonHome"
+                              title={"Incluir"} 
+                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                            />
+                          }
+                          
+
+
+                    </div>
+                  </li>
+                ))
+              
+              }
+              </CustomSlider>
             </div>
 
             <div className="cardsSobremesa">
-              <h3>Sobremesas</h3>
-              <div className="backgroundCard">
-                <span><PiPencilSimpleLight/></span>
-                <img src="" alt="" />
-                <h4>Salada Ravanello</h4>
-                <h4>R$ 49,90</h4>
-              </div>
+            <h3>Sobremesas</h3>
+            <CustomSlider
+                dots={true}
+                infinite={true}
+                speed={500}
+                slidesToShow={dishs.filter(dish => dish.category === "Sobremesa").length > 1 ? 2 : 1}
+                className={dishs.filter(dish => dish.category === "Sobremesa").length > 1 ? "" : "single-slide"}
+                slidesToScroll={1}  
+                // initialSlide={0}
+              >
+              {
+                dishs && 
+           
+                dishs.filter(dish => dish.category === "Sobremesa")
+                .map(dish => (
+                  <li key={dish.id.toString()}>
+                    <div className="backgroundCard">
+                      
+                      { 
+                        [USER_ROLE.ADMIN].includes(user.role) &&
+                        <StyledButtonText title={<PiPencilSimpleLight/>} 
+                        onClick ={(event) => {
+                        event.preventDefault();
+                        handleUpdateDish(dish.id)}}
+                        />
+                      }
+                      {
+                        [USER_ROLE.CUSTOMER].includes(user.role) &&
+                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
+                        onClick ={(event) => {
+                        event.preventDefault();
+                        toogleHeartIcon(dish.id)
+                        }}
+                        />
+                      }
+                    
+                      <img 
+                        src={dishImgUrl.find(url => url.includes(dish.image_plate))} 
+                        alt=""
+                        onClick={(event) => {
+                          event.preventDefault()
+                          handleDetails(dish.id)}}
+                          className="imgDISH"
+                      />
+                        <h4> {dish.name} </h4>
+                        <h4> {dish.price}</h4>
+                        {  
+                          [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <div className="AddDishs">
+                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+
+                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                            </div>
+                          }
+                          {
+                            [USER_ROLE.CUSTOMER].includes(user.role) &&
+                            <StyledButton 
+                              className="buttonHome"
+                              title={"Incluir"} 
+                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                            />
+                          }
+                          
+
+
+                    </div>
+                  </li>
+                ))
+              
+              }
+              </CustomSlider>
             </div>
 
           </div>
+          
 
         </div>
 
+      <Footer />
 
-
-        <Footer/>
-      </div>
     </Container>
   )
 }
@@ -266,3 +461,5 @@ export function Home (){
 // Libs Externas:
 
 // Se você estiver usando bibliotecas externas, verifique a documentação para garantir que não esteja ocorrendo alguma comunicação inesperada.
+
+

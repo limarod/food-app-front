@@ -1,7 +1,15 @@
 import {styled} from "styled-components"
+import { Button } from "../../components/button"
 
 
 export const Container = styled.div`
+
+display: flex;
+flex-direction: column;
+
+main{
+  flex: 1;
+}
 
 li{
   list-style: none;
@@ -42,8 +50,28 @@ p{
 
 .buttonsDiv{
   display: flex;
-  gap: 2.2rem;
+  width: 100%;
+  justify-content: space-between;
+  gap: 2rem;
 }
+
+
 
 `
 
+export const NewButton = styled(Button)`
+  &.removeButton{
+    background-color: ${({theme})=> theme.COLORS.SecondBackground};
+    width: 39vw;
+    max-width: 25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  &.saveButton{
+    width: 39vw;
+    max-width: 25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+`
