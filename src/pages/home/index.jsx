@@ -131,7 +131,7 @@ export function Home (){
                 dots={true}
                 infinite={true}
                 speed={500}
-                // slidesToShow={dishs.filter(dish => dish.category === "Entrada").length > 1 ? 2 : 1}
+                slidesToShow={dishs.filter(dish => dish.category === "Entrada").length > 1 ? 2 : 1}
                 // slidesToShowMobile={dishs.filter(dish => dish.category === "Entrada").length > 1 ? 2 : 4}
                 className={dishs.filter(dish => dish.category === "Entrada").length > 1 ? "" : "single-slide"}
                 slidesToScroll={1}  
