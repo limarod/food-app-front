@@ -5,7 +5,7 @@ export const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: ${({theme}) => theme.COLORS.PrimaryBackground};
+    background-color: ${({theme}) => theme.COLORS.Dark500};
     transform: translateX(-100%);
     transition: transform 0.5s ease-out;
     position: absolute;

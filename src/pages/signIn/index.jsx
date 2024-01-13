@@ -21,36 +21,39 @@ export function SignIn(){
 
   return(
     <Container>
-
+      {/* <div className="container"> */}
         <Form>
           <div className="iconFood">
             <BiFoodMenu className="foodSvg"/>
             <h1>Food explorer</h1>
           </div>
-          <p>Email</p>
-        <Input 
-          type="email"
-          placeholder="exemplo@exemplo.com.br"
-          icon={FiMail}
-          onChange={(event) => setEmail(event.target.value)}
-          />
-          <p>Senha</p>
-        <Input
-          type="password"
-          placeholder="No mínimo 6 caracteres"
-          icon={FiLock}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <NewButton  
-          className="buttonSignIn"
-          title={"Entrar"} onClick={handleSignIn}
-         />
+          <div className="formContainer">
+            <h2>Faça login</h2>
+            <p>Email</p>
+            <Input 
+              type="email"
+              placeholder="exemplo@exemplo.com.br"
+              icon={FiMail}
+              onChange={(event) => setEmail(event.target.value)}
+              />
+              <p>Senha</p>
+            <Input
+              type="password"
+              placeholder="No mínimo 6 caracteres"
+              icon={FiLock}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <NewButton  
+              className="buttonSignIn"
+              title={"Entrar"} onClick={handleSignIn}
+            />
 
-        <div className="p1">
-         <ButtonText title={"Criar uma conta"} to="/register"/>
-        </div>
+            <div className="p1">
+            <ButtonText title={"Criar uma conta"} to="/register"/>
+            </div>
+          </div>
         </Form>
-        
+        {/* </div>   */}
 
     </Container>
   )

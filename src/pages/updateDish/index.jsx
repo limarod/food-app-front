@@ -167,102 +167,137 @@ export function UpdateDish(){
       <main>
 
         <div className="content">
-          <ButtonText title={"voltar"} to="/"/>
+          <ButtonText className="buttonText" title={"<-- Voltar"} to="/"/>
           <h1>Editar prato</h1>
 
-          <p>Imagem do prato</p>
-          <Input 
-            type="file" 
-            placeholder="Selecione imagem"
-            onChange={handleChangeImgDish}
-          />
+          <div className="LargerDevices">
 
-          <p> Nome do Prato</p>
-          <Input 
-            defaultValue={data.name}
-            type="text" 
-            onChange={e => setName(e.target.value)}
-            // defaultValue="Salada Ceasar"
-          />
+            <div className="titleEditFlex">
+              <p>Imagem do prato</p>
+              <Input 
+                className="imageInput"
+                type="file" 
+                placeholder="Selecione imagem"
+                onChange={handleChangeImgDish}
+              />
+            </div>
 
-          <p>Categoria</p>
+            <div className="titleEditFlex">
+              <p> Nome do Prato</p>
+              <Input 
+                className="nameInput"
+                defaultValue={data.name}
+                type="text" 
+                onChange={e => setName(e.target.value)}
+                // defaultValue="Salada Ceasar"
+              />
+            </div>
+            
+            <div className="titleEditFlex">
+              <p>Categoria</p>
 
-          <Select icon={AiOutlineDown}
-            onChange={e => setCategory(e.target.value)}
-          />
+              <Select 
+               className="categoryInput"
+                icon={AiOutlineDown}
+                onChange={e => setCategory(e.target.value)}
+              />
+            </div>
+
+          </div>
 
           
-          { 
-          data.ingredients && (
-            <div>
-              <p>Ingredientes</p>
-            
-            
-              <div className="newTagSection">
+            { 
+            data.ingredients && (
+            <div className="LargerDevices">
+              
+              <div className="LargerDevices2">
                 
-                {
-                  data.ingredients.map(ingredient => (
-                    <li key={ingredient.id.toString()}>
-                  <TagItem 
-                    value={ingredient.tags}
-                    // onClick={() =>{{handleRemoveTag(ingredient)}}}
-                    onClick={() => {handleRemoveTag(ingredient.id)}}
+                    <p>Ingredientes</p>
+                <div className="newTagSection">
                    
-                    // onChange={e => setIngredients(e.target.value)}
-                  />
-                  </li>
-                  ))
-                }
+                   
+              
+              
+               
+                  
+                  {
+                    data.ingredients.map(ingredient => (
+                      <li key={ingredient.id.toString()}>
+                    <TagItem 
+                      value={ingredient.tags}
+                      // onClick={() =>{{handleRemoveTag(ingredient)}}}
+                      onClick={() => {handleRemoveTag(ingredient.id)}}
+                    
+                      // onChange={e => setIngredients(e.target.value)}
+                    />
+                    </li>
+                    ))
+                  }
 
-                                  {
-                                            ingredientsList.map((ingredient, index) => (
-                                              <TagItem  
-                                                key={(index.toString())}
-                                                value={ingredient}
-                                                onClick={() => {handleRemoveTag(ingredient)}}
-                                                // onChange={e => setIngredients(e.target.value)}
-                                              />
-                                            ))
-                                  }
-                  <TagItem 
-                    isnew  
-                    value={newIngredient}
-                    onChange={e => setNewIngredient(e.target.value) }  
-                    onClick={handleAddTag}
-                    placeholder="Adicionar"
-                  />
-                
-                
+                                    {
+                                              ingredientsList.map((ingredient, index) => (
+                                                <TagItem  
+                                                  key={(index.toString())}
+                                                  value={ingredient}
+                                                  onClick={() => {handleRemoveTag(ingredient)}}
+                                                  // onChange={e => setIngredients(e.target.value)}
+                                                />
+                                              ))
+                                    }
+                    <TagItem 
+                      isnew  
+                      value={newIngredient}
+                      onChange={e => setNewIngredient(e.target.value) }  
+                      onClick={handleAddTag}
+                      placeholder="Adicionar"
+                    />
+                  
+                  
+                </div>
+
               </div>
-            </div>
-          )}
-          <p>Preço</p>
-          <Input 
-            type="text" 
-            defaultValue={data?.price??""}
-            onChange={e => setPrice(e.target.value)}
-            // placeholder="R$ 40,00"
-          />
-          <p>Descrição</p>
 
-          <Textarea 
-           defaultValue={data?.description??""}
-           onChange={e => setDescription(e.target.value)}
-            // defaultValue ="A Salada Ceasar é um opção refrescasnte para o verão "
-          />
-          <div className="buttonsDiv">
-            <NewButton 
-              className="removeButton"
-              title={"Excluir prato"}
-              onClick={handleDeleteDish}
-            />
-            
-            <NewButton 
-              className="saveButton"
-              title={"Salvar alterações"} 
-              onClick={handleUpdateDish}
-              />
-          </div>
+                <div className="titleEditFlex">
+                  <p>Preço</p>
+                    <Input 
+                      className="priceInput"
+                      type="text" 
+                      defaultValue={data?.price??""}
+                      onChange={e => setPrice(e.target.value)}
+                      // placeholder="R$ 40,00"
+                    />
+                  </div>
+
+
+              </div>
+              )}
+                <div>
+                  <p>Descrição</p>
+
+                  <Textarea 
+                    className="descriptionInput"
+                    defaultValue={data?.description??""}
+                    onChange={e => setDescription(e.target.value)}
+                    // defaultValue ="A Salada Ceasar é um opção refrescasnte para o verão "
+                  />
+                </div>
+
+        
+
+
+            <div className="buttonsDiv">
+                <NewButton 
+                  className="removeButton"
+                  title={"Excluir prato"}
+                  onClick={handleDeleteDish}
+                />
+                
+                <NewButton 
+                  className="saveButton"
+                  title={"Salvar alterações"} 
+                  onClick={handleUpdateDish}
+                />
+            </div>
         </div>
       </main>
 

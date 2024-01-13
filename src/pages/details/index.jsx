@@ -80,50 +80,57 @@ export function Details(){
         
           <div className="containerDetails">
             <NewButtonText title={"Voltar"} to="/"/>
-            <img src={dishImgUrl} alt="imagem do prato" />
-
-            <h1>{data.name}</h1>
-
-            <p>{data.description}</p>
-
-            
-            <div className="tagsContainer">
-             
-            { data.ingredients && data.ingredients.map(ingredient => (
-                <li key={ingredient.id.toString()} >
-                  <Tag title={ingredient.tags}/> 
-                </li>
-                ))
-            }
-            
+            <div className="LargerDevicesContainer">
+              <div>
+                <img src={dishImgUrl} alt="imagem do prato" />
               </div>
-             
-            { [USER_ROLE.ADMIN].includes(user.role) &&
-              <NewButton className="buttonDetails"
-                title={"Editar prato"}
-                onClick ={(event) => {
-                  event.preventDefault();
-                  handleUpdateDish(data.id)}}
-              />
-            }
 
-            { [USER_ROLE.CUSTOMER].includes(user.role) &&
+              <div className="dataDish">
+                <h1>{data.name}</h1>
 
-              <div className="AddDishs">
-                <StyledButtonText2 title={< AiOutlineMinus/>} onClick={minusDishOrder}/>
-                <p>{dishsNumberOrder}</p>
-                <StyledButtonText2 title={< AiOutlinePlus/>} onClick={addDishsOrder}/>
-    
-                <NewButton 
-                  className="buttonDetails"
-                  icon={PiReceipt}
-                  title={` pedir -  ${data.price}` }
-                  onClick ={(event) => {event.preventDefault() ; addToCartShopping()}}
-                />
+                <p>{data.description}</p>
+
+                
+                <div className="tagsContainer">
+                
+                  { data.ingredients && data.ingredients.map(ingredient => (
+                      <li key={ingredient.id.toString()} >
+                        <Tag title={ingredient.tags}/> 
+                      </li>
+                      ))
+                  }
+                
+                </div>
+
+                
+                { [USER_ROLE.ADMIN].includes(user.role) &&
+                  <NewButton className="buttonDetails"
+                    title={"Editar prato"}
+                    onClick ={(event) => {
+                      event.preventDefault();
+                      handleUpdateDish(data.id)}}
+                  />
+                }
+
+                { [USER_ROLE.CUSTOMER].includes(user.role) &&
+
+                  <div className="AddDishs">
+                    <StyledButtonText2 title={< AiOutlineMinus/>} onClick={minusDishOrder}/>
+                    <p>{dishsNumberOrder}</p>
+                    <StyledButtonText2 title={< AiOutlinePlus/>} onClick={addDishsOrder}/>
+        
+                    <NewButton 
+                      className="buttonDetails"
+                      icon={PiReceipt}
+                      title={` pedir -  ${data.price}` }
+                      onClick ={(event) => {event.preventDefault() ; addToCartShopping()}}
+                    />
+                  
+                  </div>
+                }
               </div>
-            }
-           
-           
+
+            </div>
           
           
           </div> 

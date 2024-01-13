@@ -43,35 +43,38 @@ export function SignUp(){
             <BiFoodMenu className="foodSvg"/>
             <h1>Food explorer</h1>
           </div>
-          <p>Seu nome</p>
-        <Input 
-          type="text"
-          placeholder="Exemplo: Maria da Silva"
-          icon={FiUser}
-          onChange={(event) => setName(event.target.value) }
-          />
-          <p>Email</p>
-        <Input 
-          type="email"
-          placeholder="exemplo@exemplo.com.br"
-          icon={FiMail}
-          onChange={(event) => setEmail(event.target.value) }
-          />
-          <p>Senha</p>
-        <Input
-          type="password"
-          placeholder="No mínimo 6 caracteres"
-          icon={FiLock}
-          onChange={(event) => setPassword(event.target.value) }
-        />
-        <NewButton  
-          className="buttonSignUp"
-          title={"Cadastrar"}
-          onClick={handleSignUp}
-        />
-        <div className="p1">
-         <ButtonText title={"Já tenho uma conta"} to="/"/>
-        </div>
+          <div className="formContainer">
+            <h2>Crie sua conta</h2>
+             <p>Seu nome</p>
+            <Input 
+              type="text"
+              placeholder="Exemplo: Maria da Silva"
+              icon={FiUser}
+              onChange={(event) => setName(event.target.value) }
+              />
+              <p>Email</p>
+            <Input 
+              type="email"
+              placeholder="exemplo@exemplo.com.br"
+              icon={FiMail}
+              onChange={(event) => setEmail(event.target.value) }
+              />
+              <p>Senha</p>
+            <Input
+              type="password"
+              placeholder="No mínimo 6 caracteres"
+              icon={FiLock}
+              onChange={(event) => setPassword(event.target.value) }
+            />
+            <NewButton  
+              className="buttonSignUp"
+              title={"Cadastrar"}
+              onClick={handleSignUp}
+            />
+            <div className="p1">
+            <ButtonText title={"Já tenho uma conta"} to="/"/>
+            </div>
+          </div>
         </Form>
         
 

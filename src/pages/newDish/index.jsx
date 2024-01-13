@@ -91,60 +91,84 @@ export function NewDish(){
   return(
     <Container>
         <Header/>
-
+    <main>
       <div className="content">
-        <ButtonText title={"voltar"} to="/"/>
+        <ButtonText className="buttonText" title={"<-- Voltar"} to="/"/>
         <h1>Novo prato</h1>
 
-        <p>Imagem do prato</p>
-        <Input 
-        type="file" 
-        placeholder="Selecione imagem"
-        onChange={handleChangeImgDish}
-        />
+        <div className="LargerDevices">
 
-        <p>Nome</p>
-        <Input 
-          type="text" 
-          placeholder="Ex: Salada Ceasar"
-          onChange={e => setName(e.target.value)}
-        />
+          <div className="titleEditFlex">
 
-        <p>Categoria</p>
+            <p>Imagem do prato</p>
+            <Input 
+            className="imageInput"
+            type="file" 
+            placeholder="Selecione imagem"
+            onChange={handleChangeImgDish}
+            />
+          </div>
 
-        <Select 
-          icon={AiOutlineDown}
-          onChange={e => setCategory(e.target.value)}
-        />
+          <div className="titleEditFlex">
+            <p>Nome</p>
+            <Input 
+              className="nameInput"
+              type="text" 
+              placeholder="Ex: Salada Ceasar"
+              onChange={e => setName(e.target.value)}
+            />
+          </div>
 
+          <div className="titleEditFlex">
+            <p>Categoria</p>
 
-        <p>Ingredientes</p>
-        
-        <div className="newTagSection">
-          {
-            ingredients.map((ingredient, index) => (
-              <TagItem  
-                key={(index.toString())}
-                value={ingredient}
-                onClick={() => {handleRemoveTag(ingredient)}}
-              />
-            ))
-          }
-          <TagItem 
-            isnew  
-            placeholder="Adicionar"
-            value={newIngredient} 
-            onChange={e => setNewIngredient(e.target.value) }  
-            onClick={handleAddTag}
-          />
+            <Select 
+              className="categoryInput"
+              icon={AiOutlineDown}
+              onChange={e => setCategory(e.target.value)}
+            />
+          </div>
+
         </div>
 
-        <p>Preço</p>
-        <Input 
-          type="text" 
-          placeholder="R$ 00,00"
-          onChange={e => setPrice(e.target.value)}
-        />
+        <div className="LargerDevices">
+          <div className="LargerDevices2">
+            <p>Ingredientes</p>
+            
+            <div className="newTagSection">
+              {
+                ingredients.map((ingredient, index) => (
+                  <TagItem  
+                    key={(index.toString())}
+                    value={ingredient}
+                    onClick={() => {handleRemoveTag(ingredient)}}
+                  />
+                ))
+              }
+              <TagItem 
+                isnew  
+                placeholder="Adicionar"
+                value={newIngredient} 
+                onChange={e => setNewIngredient(e.target.value) }  
+                onClick={handleAddTag}
+              />
+            </div>
+
+          </div>
+
+          <div className="titleEditFlex">     
+            <p>Preço</p>
+            <Input 
+              className="priceInput"
+              type="text" 
+              placeholder="R$ 00,00"
+              onChange={e => setPrice(e.target.value)}
+            />
+          </div>
+
+          
+        </div>
+
         <p>Descrição</p>
 
         <Textarea 
@@ -152,10 +176,11 @@ export function NewDish(){
           onChange={e => setDescription(e.target.value)}
         />
 
-        <Button title={"Salvar alterações"} onClick={handleAddNewDish}/>
-
+        <div className="buttonsDiv">
+          <Button title={"Salvar alterações"} onClick={handleAddNewDish}/>
+        </div>
       </div>
-
+    </main>
     <Footer/>
     </Container>
   )

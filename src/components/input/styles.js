@@ -1,4 +1,5 @@
 import {styled} from "styled-components"
+import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
 
 export const Container = styled.div`
   
@@ -10,6 +11,11 @@ export const Container = styled.div`
 
   display: flex;
   align-items: center;
+
+  @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+      margin: 0;
+      /* max-width: 100%; */
+    }
 
   >svg{
     margin-left: 1rem;

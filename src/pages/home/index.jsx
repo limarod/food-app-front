@@ -50,10 +50,14 @@ export function Home (){
     setDishs(data)
   }
 
+
+
   function toogleHeartIcon(dishId){
 
     setHeartIcon((prevIcon) =>{
       const updatedIcons = { ...prevIcon };
+
+
 
     // Verifica se o ícone para o dishId já existe no estado 
     // Se não existir, inicializa com o ícone do coração preenchido
@@ -66,7 +70,8 @@ export function Home (){
         : <PiHeartStraight/>;
     }
     console.log(updatedIcons)
-      return updatedIcons
+      
+    return updatedIcons
       
     })
   }
@@ -101,18 +106,28 @@ export function Home (){
     <Container>
       <Menu 
         sideMenuIsOpen={sideMenuIsOpen}
-        onCloseMenu={()=> setSideMenuIsOpen(false)}
+        onCloseMenu={()=> {setSideMenuIsOpen(false)
+          document.body.classList.remove("menu-open")
+        }}
+
+
+
         onSearchComplete={handleSearchCompleted}
       />
 
         <Header className="header"
-          onOpenMenu={() => {setSideMenuIsOpen(true)}}
+          onOpenMenu={() => {setSideMenuIsOpen(true)
+            document.body.classList.add("menu-open")
+
+          }}
+          onSearchComplete={handleSearchCompleted}
+          
           currentPage="home"
           shoppingCartNumber={shoppingCartNumber}
           setShoppingCartNumber={setShoppingCartNumber}
         />
 
-        <div className="content">
+        <div className="content" menuOpen={sideMenuIsOpen}>
           <div className="homeImg">
             <img src={macarrons} alt="imagem de macarrons e frutas" />
             <div className="homeImgBackground">

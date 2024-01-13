@@ -19,10 +19,6 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
 
   const [search, setSearch] = useState("")
 
-  // function handleNewPlatepath(){
-  //   navigate("/newDish") 
-  // }
-
   function handleSignOut(){
     signOut()
   }
@@ -31,11 +27,11 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
   useEffect(() =>{
     async function handleSearch(){
       const response = await api.get(`/menu?name=${search}&ingredients=${search}`)
-      // console.log("RESPONSE FROM MENU", response.data)
       onSearchComplete(response.data)
-      
     }
+
     handleSearch()
+    
   },[search])
 
   return(

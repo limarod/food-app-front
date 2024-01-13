@@ -14,8 +14,15 @@ export default createGlobalStyle`
     
    body{
     background-color: ${({theme})=> theme.COLORS.PrimaryBackground};
+    background-color: ${({theme}) => theme.COLORS.Dark500};
+
     color: ${({theme})=> theme.COLORS.FONT_COLOR};
-    
+
+    /* width: 100vw; */
+   }
+
+   body.menu-open{
+    overflow: hidden;
    }
 
     a{

@@ -3,11 +3,19 @@ import { ButtonText } from "../../components/buttonText";
 import { Button } from "../../components/button";
 import {PiHeartStraightFill} from "react-icons/pi"
 import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
+import {createGlobalStyle} from "styled-components"
 
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+  
+// export default createGlobalStyle`
+//   body.menu-open{
+//     background-color: red;
+//   }
+// `
 
 
 export const Container = styled.div`
@@ -15,19 +23,52 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
+    min-width: 82.5rem;
+  }
 
   .homeImg{
     margin: 4.4rem 0;
-    padding: 0 0 00rem 0 ;
+    padding: 0 0 0 0 ;
     
     display: flex;
     background-color: ${({theme}) => theme.COLORS.SecondBackground};
+    align-items: center;
+
+    @media(min-width: ${DEVICE_BREAKPOINTS.SMALL}){
+      gap: 5rem;
+      justify-content: space-between;
+      padding-right: 1rem;
+    }
+
+    @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
+      justify-content: space-around;
+      max-width: 79.5rem;
+      min-width: 77.5rem;
+      margin: 4.4rem auto;
+    }
+
+    @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+      max-width: 87.5rem;
+      min-width: 87.5rem;
+    }
 
     img{
       width: 15rem;
 
       margin-top: -2.9rem;
       margin-left: -1.8rem;
+     
+     
+      @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
+        margin-left: -10rem;
+        width: 20rem;
+    }
+
+      @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+        margin-left: -13rem;
+      }
+
     }
 
     .homeImgBackground{
@@ -36,6 +77,12 @@ export const Container = styled.div`
 
       h2{
         margin-bottom: 0.8rem;
+      }
+
+      @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
+        h2{
+          font-size: 3rem;
+        }
       }
     }
   }
@@ -50,8 +97,22 @@ export const Container = styled.div`
   }
 
   >.content{
-    padding:0 1.0rem 0 2.4rem ;
+    padding: 1.0rem 1.5rem 2.4rem ;
     /* flex: 1;    */
+    
+
+    @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
+      /* margin: auto; */
+      margin: 0 auto;
+      max-width: 79.5rem;
+      min-width: 82rem;
+    }
+
+    @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+      padding: 0 7.5rem;
+      max-width: 103rem;
+      margin: 0 auto;
+    }
   }
 
 
@@ -203,7 +264,7 @@ export const CustomSlider = styled(Slider)`
 
   @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
     .slick-slider {
-      slidesToShow: 4;
+     
     }
   }
   

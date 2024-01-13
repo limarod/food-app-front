@@ -1,4 +1,6 @@
 import {styled} from "styled-components"
+import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
+
 
 export const Container = styled.div`
   width: 100%;
@@ -16,6 +18,8 @@ font-size: 1.2rem;
 padding: 1.2rem 0 1.2rem 1.4rem;
 margin: 1.2rem 0 2.4rem 0;
 
+
+
 background-color: ${({theme}) => theme.COLORS.SecondBackground};
 color: white;
 
@@ -24,6 +28,11 @@ outline: none;
 appearance: none;
 -webkit-appearance: none;
 -moz-appearance: none;
+
+    @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+      margin: 0;
+    }
+
 `
 
 
