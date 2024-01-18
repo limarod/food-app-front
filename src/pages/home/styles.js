@@ -129,7 +129,7 @@ export const Container = styled.div`
 
   .backgroundCard{
     width: 100%;
-    height: 29rem;
+    height: 31rem;
     background-color: ${({theme}) => theme.COLORS.CardsBackground};
     position: relative;
 
@@ -142,6 +142,7 @@ export const Container = styled.div`
 
     align-items: center;
     padding: 1.6rem;
+
 
     .name-Price{
       display: flex;
@@ -160,6 +161,7 @@ export const Container = styled.div`
     h3{
       font-size: 1.15rem;
       margin-bottom: 1rem;
+      color: ${({theme}) => theme.COLORS.FONT_PRICE};
     }
 
     @media(min-width: ${DEVICE_BREAKPOINTS.SMALL}){
@@ -179,9 +181,13 @@ export const Container = styled.div`
     }
 
     .imgDISH{
-      width: 10rem;
+      width: 10.5rem;
       height: auto;
-      margin: 5px 0 12px 0 ;
+      margin: 10px 0 20px 0 ;
+
+      @media(min-width: 426px){
+        width: 12rem;
+      }
     }
 
     .AddDishs{
@@ -198,7 +204,8 @@ export const Container = styled.div`
       }
     }
   }
-    .buttonHome{
+
+  .buttonHome{
     background-color:  ${({theme}) => theme.COLORS.BUTTON_COLOR};
   }
 `
@@ -234,10 +241,8 @@ export const CustomSlider = styled(Slider)`
 
   .slick-track {
     display: flex !important;
-    justify-content: space-around;
-    /* align-items: center; */
-    gap: 5px;
-    /* margin-left: 29.5px; */
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .slick-dots{
@@ -257,17 +262,65 @@ export const CustomSlider = styled(Slider)`
   }
 
   &.single-slide{
-
     .slick-track {
-      max-width: 55%;
+      /* max-width: 60%; */
   }}
+`;
 
-  @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
-    .slick-slider {
-     
-    }
-  }
-  
-  `;
+
+export const SliderSettings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  initialSlide: 0,
+  responsive: [
+    {
+      breakpoint: 2560,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 2,
+        // infinite: true,
+        dots: true,
+        initialSlide:0,
+      },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 2,
+        // infinite: true,
+        dots: true,
+        initialSlide:0,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 2,
+        initialSlide: 0,
+      },
+    },
+    {
+      breakpoint: 580,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        initialSlide: 0,
+      },
+    },
+    {
+      breakpoint: 319,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        initialSlide: 0,
+      },
+    },
+  ],
+};
 
 

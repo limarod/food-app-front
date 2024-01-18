@@ -78,7 +78,7 @@ export function Header({onOpenMenu, currentPage, onSearchComplete }){
                 <NewButton 
                   className="buttonDetails"
                   icon={PiReceipt}
-                  title={` Pedidos - (0)`  }
+                  title={  <span className="shoppingCartLargerDevices"> Pedidos - ({shoppingCartNumber}) </span>}
                   onClick={(event) => handleGoToShoppingCart(event)}
                 />
               }

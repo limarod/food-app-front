@@ -6,7 +6,7 @@ import{ Footer} from"../../components/footer"
 import {BsSearch} from "react-icons/bs"
 import { useState, useEffect } from "react"
 import { useAuth } from "../../hooks/auth"
-import { useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { api } from "../../services/api"
 import{USER_ROLE} from "../../utils/roles"
 
@@ -15,12 +15,18 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
 
   const {signOut} = useAuth()
   const {user} = useAuth()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const [search, setSearch] = useState("")
 
   function handleSignOut(){
     signOut()
+  }
+
+  function handleGoToNewDish(event){
+    event.preventDefault()
+    navigate("/newDish")
+    document.body.classList.remove("menu-open")
   }
 
    
@@ -58,13 +64,17 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
         {
          [USER_ROLE.ADMIN].includes(user.role) &&
           <ButtonText 
-          className="buttonText" 
-          title={"Novo prato"}
-          to={"/newDish"}
+            className="buttonText" 
+            title={"Novo prato"}
+            onClick={(event) => handleGoToNewDish(event)}
           />
         }
         <div className="border"></div>
-        <ButtonText className="buttonText" title={"Sair"} onClick={handleSignOut}/>
+        <ButtonText 
+          className="buttonText" 
+          title={"Sair"} 
+          onClick={handleSignOut}
+        />
         <div className="border"></div>
       </div>
 

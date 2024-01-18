@@ -34,6 +34,7 @@ function AuthProvider({children}){
     localStorage.removeItem("@foodExplorer:user");
 
     setData({});
+    document.body.classList.remove("menu-open")
   } 
 
   async function updateProfile({user}){

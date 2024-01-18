@@ -1,4 +1,4 @@
-import {Container, StyledButtonText, StyledButtonText2, StyledButton, StyledFilledHeartIcon, CustomSlider} from "./styles"
+import {Container, StyledButtonText, StyledButtonText2, StyledButton, StyledFilledHeartIcon, CustomSlider, SliderSettings} from "./styles"
 import {Header} from "../../components/header"
 import {Footer} from "../../components/footer"
 import macarrons from "../../assets/macarrons.png"
@@ -6,7 +6,7 @@ import salada_rav from "../../assets/Dish - Salada Ravanello.png"
 import {PiPencilSimpleLight, PiHeartStraight, PiHeartStraightFill } from "react-icons/pi"
 import {AiOutlineMinus , AiOutlinePlus } from "react-icons/ai"
 import {Menu} from "../menu"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useLayoutEffect  } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { ButtonText } from "../../components/buttonText"
 import { Button } from "../../components/button"
@@ -35,6 +35,15 @@ export function Home (){
   const [dishsNumberOrder, setDishsNumberOrder] = useState(1)
   const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
 
+
+
+
+  //TENTATIVA DE AJUSTAR OS SLIDES/////////////////////
+  const sliderRefEntrada = useRef();
+  const sliderRefRefeição = useRef();
+  const sliderRefBebidas = useRef();
+  const sliderRefSobremesas = useRef();
+
   
   const dishImgUrl = dishs.map(dish => `${api.defaults.baseURL}/files/${dish.image_plate}`)
 
@@ -49,8 +58,6 @@ export function Home (){
   function handleSearchCompleted(data){
     setDishs(data)
   }
-
-
 
   function toogleHeartIcon(dishId){
 
@@ -101,6 +108,24 @@ export function Home (){
   }
 
 
+  useEffect(() => {
+    api.get("/dishs").then(data => {
+         setDishs(data);
+         sliderRefEntrada.current.slickGoTo(0);
+         sliderRefRefeição.current.slickGoTo(0);
+         sliderRefBebidas.current.slickGoTo(0);
+         sliderRefSobremesas.current.slickGoTo(0);
+    });
+
+    setTimeout(() => {
+
+      sliderRefEntrada.current.slickGoTo(0);
+      sliderRefRefeição.current.slickGoTo(0);
+      sliderRefBebidas.current.slickGoTo(0);
+      sliderRefSobremesas.current.slickGoTo(0);
+    }, 1000);
+  }, []);
+
 
   return(
     <Container>
@@ -136,22 +161,13 @@ export function Home (){
             </div>
           </div>
 
-        
 
           <div className="main">
             <div className="cardsEntrada">
               <h3>Entradas</h3>
               
-              <CustomSlider
-                dots={true}
-                infinite={true}
-                speed={500}
-                slidesToShow={dishs.filter(dish => dish.category === "Entrada").length > 1 ? 2 : 1}
-                // slidesToShowMobile={dishs.filter(dish => dish.category === "Entrada").length > 1 ? 2 : 4}
-                className={dishs.filter(dish => dish.category === "Entrada").length > 1 ? "" : "single-slide"}
-                slidesToScroll={1}  
-                // initialSlide={0}
-              >
+              <CustomSlider  ref={sliderRefEntrada} {...SliderSettings}>
+               
               {
                 dishs && 
            
@@ -190,14 +206,14 @@ export function Home (){
                           <h4> {dish.name} </h4>
                           <h3> {dish.price}</h3>
                         </div>
-                        {  
-                          [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <div className="AddDishs">
-                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
-                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+                          {  
+                            [USER_ROLE.CUSTOMER].includes(user.role) &&
+                              <div className="AddDishs">
+                                <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                                <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
-                            </div>
+                                <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                              </div>
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
@@ -219,15 +235,7 @@ export function Home (){
 
             <div className="cardsRefeicao">
               <h3>Refeições</h3>
-              <CustomSlider
-                dots={true}
-                infinite={true}
-                speed={500}
-                slidesToShow={dishs.filter(dish => dish.category === "Refeição").length > 1 ? 2 : 1}
-                className={dishs.filter(dish => dish.category === "Refeição").length > 1 ? "" : "single-slide"}
-                slidesToScroll={1}  
-                // initialSlide={0}
-              >
+              <CustomSlider  ref={sliderRefRefeição}  {...SliderSettings}>
               {
                 dishs && 
            
@@ -294,16 +302,8 @@ export function Home (){
 
             <div className="cardsBebida">
               <h3>Bebidas</h3>
-              <CustomSlider
-                dots={true}
-                infinite={true}
-                speed={500}
-                slidesToShow={dishs.filter(dish => dish.category === "Bebida").length > 1 ? 2 : 1}
-                className={dishs.filter(dish => dish.category === "Bebida").length > 1 ? "" : "single-slide"}
-                slidesToScroll={1}  
-                // initialSlide={0}
-              >
-              {
+              <CustomSlider  ref={sliderRefBebidas}  {...SliderSettings}>
+                {
                 dishs && 
            
                 dishs.filter(dish => dish.category === "Bebida")
@@ -369,15 +369,7 @@ export function Home (){
 
             <div className="cardsSobremesa">
             <h3>Sobremesas</h3>
-            <CustomSlider
-                dots={true}
-                infinite={true}
-                speed={500}
-                slidesToShow={dishs.filter(dish => dish.category === "Sobremesa").length > 1 ? 2 : 1}
-                className={dishs.filter(dish => dish.category === "Sobremesa").length > 1 ? "" : "single-slide"}
-                slidesToScroll={1}  
-                // initialSlide={0}
-              >
+            <CustomSlider   ref={sliderRefSobremesas}  {...SliderSettings}>
               {
                 dishs && 
            

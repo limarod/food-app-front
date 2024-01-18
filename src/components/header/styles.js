@@ -129,7 +129,9 @@ export const Container = styled.header`
 
   }
 
- 
+  .shoppingCartLargerDevices{
+      font-size: 1.2rem;
+    }
 
   .fourthdDiv{
     /* position: relative; */
@@ -158,6 +160,8 @@ export const Container = styled.header`
       top: -4px;
       right: -4px;
     }
+
+   
     
     @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
       display: none;
