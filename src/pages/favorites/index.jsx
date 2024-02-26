@@ -4,15 +4,22 @@ import { Footer } from "../../components/footer"
 import {ButtonText} from "../../components/buttonText"
 import { useState, useEffect } from "react"
 import { api } from "../../services/api"
-import { useAuth } from "../../hooks/auth"
+import { useAuth } from "../../hooks/auth" 
+import { useParams } from "react-router-dom"
 
 
 export function Favorites(){
 
   const { addToCartShopping} = useAuth()
   const [data, setData] = useState()
+  const params = useParams();
 
-
+  async function handleremoveFavorites(id){
+    const confirm = window.confirm("Deseja remover dos favoritos?")
+    if(confirm){
+      await api.delete(`/favorites/${id}`)
+    }
+  }
 
   useEffect(() =>{
     async function fetchData(){
@@ -23,7 +30,7 @@ export function Favorites(){
     fetchData()
    
 
-  },[])
+  },[handleremoveFavorites])
   return(
     <Container>
       <Header/>
@@ -44,8 +51,10 @@ export function Favorites(){
                   title={"Adicionar ao pedido"}
                   onClick ={(event) => {event.preventDefault() ; addToCartShopping(item)}}
                 />
-                <ButtonText className="newButtonText" title={"Remover dos Favoritos"}
-                  
+                <ButtonText 
+                  className="newButtonText" 
+                  title={"Remover dos Favoritos"}
+                  onClick={() => (handleremoveFavorites(item.id))}
                 />
               </div>
           </div>

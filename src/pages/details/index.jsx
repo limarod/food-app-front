@@ -42,10 +42,6 @@ export function Details(){
     setDishsNumberOrder(dishsNumberOrder - 1);   
   }
 
-  // function addToCartShopping(DishId){
-  //   setShoppingCartNumber((prevNumber) => prevNumber + 1)
-  
-  // }
   
   useEffect(() =>{
     async function fetchDishDetails(){
@@ -124,7 +120,7 @@ export function Details(){
                       className="buttonDetails"
                       icon={PiReceipt}
                       title={` pedir -  ${data.price}` }
-                      onClick ={(event) => {event.preventDefault() ; addToCartShopping()}}
+                      onClick ={(event) => {event.preventDefault() ; addToCartShopping(data)}}
                     />
                   
                   </div>

@@ -26,7 +26,7 @@ export function Order(){
 
     if(dishs && dishs.length > 0){
       dishs.forEach((dish) =>{
-        total += dish.quantity * parseFloat(dish.price.replace(',','.'));
+        total += dish.quantity * parseFloat(dish.price.toString().replace(',','.'));
       })
     }
     return total.toFixed(2).replace('.',',')
