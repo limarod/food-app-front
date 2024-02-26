@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { ButtonText } from "../../components/buttonText";
 
        
 export const Container = styled.div`
@@ -9,7 +10,7 @@ export const Container = styled.div`
 
     h1{
       font-size: 3.2rem;
-      margin: 5.6rem 0 2.7rem 0;
+      margin: 3.6rem 0 2.7rem 0;
     }
     h2{
       font-size: 2rem;
@@ -44,12 +45,16 @@ export const Container = styled.div`
     }
 
     .buttonOrder{
-      background-color: ${({theme}) => theme.COLORS.BUTTON_COLOR};
-      height: 2.7rem ;
+      color: aqua;
+      font-size: 1.2rem;
     }
   }
 
   footer{
     margin-top: 5rem;
   }
+`
+export const NewButtonText = styled(ButtonText)`
+  margin-top: 2rem;
+  font-size: 2rem;
 `

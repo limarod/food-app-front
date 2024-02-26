@@ -33,9 +33,9 @@ export const Container = styled.div`
     }
 
     @media(min-width: ${DEVICE_BREAKPOINTS.X_LARGE}){
-    max-width: 93rem;
-    min-width: 93rem;
-  }
+      max-width: 93rem;
+      min-width: 93rem;
+    }
   }
 
   .buttonText{
@@ -153,7 +153,56 @@ export const Container = styled.div`
       min-width: 82.5rem;
    }
   }
+
+  @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+    .selectInput{
+      background-color: ${({theme}) => theme.COLORS.SecondBackground};
+      border-radius: 0.6rem;
+      color: ${({theme}) => theme.COLORS.FONT_PLACEHOLDER}
+    }
+
+    .selectIcon{
+      position: absolute;
+      z-index: 1;
+      font-size: 2.8rem;
+      transform: translate(220px, 5%);
+    }
+  }
  
+  
+  .imageInput{
+      width: 22rem;
+      background-color: ${({theme}) => theme.COLORS.SecondBackground};
+      height: 3.7rem;
+      border-radius: 0.6rem;
+      margin-top: 0.1rem;
+      color: ${({theme}) => theme.COLORS.FONT_PLACEHOLDER}
+    }
+   
+    .labelInputImg{
+      display: inline-block;
+      position: relative;
+      
+    }
+
+    .selectImage{
+      position: absolute;
+      padding: 1rem 0;
+      /* z-index: 1; */
+      font-size: 1.2rem;
+      transform: translate(50%, 10%);
+      
+    }
+
+    .selectImageIcon{
+      position: absolute;
+      /* padding: 1rem 0; */
+      z-index: 1;
+      font-size: 2.8rem;
+      /* transform: translateX(80%); */
+      transform: translate(100%, -0%);
+      
+    }
 
 `
 

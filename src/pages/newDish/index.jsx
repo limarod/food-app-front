@@ -10,9 +10,9 @@ import {TagItem} from "../../components/tagItem"
 import { useState } from "react";
 import {api} from "../../services/api"
 import { useNavigate, useParams } from "react-router-dom";
-
 import {AiOutlineDown} from "react-icons/ai"
-
+import{InputImage} from "../../components/inputImage"
+import { PiUploadSimpleBold } from "react-icons/pi";
 
 
 export function NewDish(){
@@ -101,12 +101,17 @@ export function NewDish(){
           <div className="titleEditFlex">
 
             <p>Imagem do prato</p>
-            <Input 
-            className="imageInput"
-            type="file" 
-            placeholder="Selecione imagem"
-            onChange={handleChangeImgDish}
-            />
+            <label htmlFor="inputLabel" className="imageInput" >
+
+                <span className="selectImage">Selecione imagem </span>
+                <span className="selectImageIcon"><PiUploadSimpleBold/></span>
+                <InputImage 
+                  id="inputLabel"
+                  type="file" 
+                  placeholder="Selecione imagem"
+                  onChange={handleChangeImgDish}
+                />
+            </label>
           </div>
 
           <div className="titleEditFlex">
@@ -121,12 +126,15 @@ export function NewDish(){
 
           <div className="titleEditFlex">
             <p>Categoria</p>
-
-            <Select 
-              className="categoryInput"
-              icon={AiOutlineDown}
-              onChange={e => setCategory(e.target.value)}
-            />
+            <label htmlFor="selectLabel" className="selectInput">
+              <span className="selectIcon">  < AiOutlineDown/> </span>
+              <Select 
+                id="selectLabel"
+                className="categoryInput"
+                icon={AiOutlineDown}
+                onChange={e => setCategory(e.target.value)}
+              />
+            </label>
           </div>
 
         </div>

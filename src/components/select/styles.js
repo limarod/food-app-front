@@ -6,6 +6,11 @@ export const Container = styled.div`
   width: 100%;
   position: relative;
 
+  svg{
+    @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+      display: none;
+    }
+  }
 `
 
 export const StyledSelect = styled.select`
@@ -21,7 +26,7 @@ margin: 1.2rem 0 2.4rem 0;
 
 
 background-color: ${({theme}) => theme.COLORS.SecondBackground};
-color: white;
+color: ${({theme}) => theme.COLORS.FONT_PLACEHOLDER};
 
 outline: none;
 

@@ -12,19 +12,8 @@ import {useAuth} from "../../hooks/auth"
 import { useParams, useNavigate } from "react-router-dom"
 import{useState, useEffect} from "react"
 import {AiOutlineDown} from "react-icons/ai"
-
-
-  // const {dish, updateDishImg} = useAuth()
-  
-
-  // const [imgDish, setImgDish] = useState(dish.image_plate)
-  // const [imgDishFile, setImgDishFile] = useState(null)
-
-  // function handleChangeImgDish(event){
-  //   const file = event.target.files[0];
-
-  // }
-
+import{InputImage} from "../../components/inputImage"
+import { PiUploadSimpleBold } from "react-icons/pi";
 
 
 export function UpdateDish(){
@@ -36,8 +25,6 @@ export function UpdateDish(){
   const [price, setPrice] = useState()
   const [imgDishFile, setImgDishFile] = useState(null)
 
-  //const [ingredients, setIngredients] = useState()
-  //Adicionar novas Tags na edição do prato
   const [ingredientsList, setIngredientsList] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
 
@@ -171,18 +158,26 @@ export function UpdateDish(){
           <h1>Editar prato</h1>
 
           <div className="LargerDevices">
-
-            <div className="titleEditFlex">
+           
+            <div className="titleEditFlex inputImg">
               <p>Imagem do prato</p>
-              <Input 
-                className="imageInput"
-                type="file" 
-                placeholder="Selecione imagem"
-                onChange={handleChangeImgDish}
-              />
+              <label htmlFor="inputLabel" className="imageInput" > 
+                 
+                <span className="selectImage">Selecione imagem </span>
+                <span className="selectImageIcon"><PiUploadSimpleBold/></span>
+                <InputImage 
+                  id="inputLabel"
+                  type="file" 
+                  placeholder="Selecione imagem"
+                  onChange={handleChangeImgDish}
+                >
+                </InputImage>
+               
+              </label>
             </div>
+      
 
-            <div className="titleEditFlex">
+            <div className="titleEditFlex nameInputWrapper">
               <p> Nome do Prato</p>
               <Input 
                 className="nameInput"
@@ -195,12 +190,15 @@ export function UpdateDish(){
             
             <div className="titleEditFlex">
               <p>Categoria</p>
-
-              <Select 
-               className="categoryInput"
-                icon={AiOutlineDown}
-                onChange={e => setCategory(e.target.value)}
-              />
+            <label htmlFor="selectLabel" className="selectInput">
+              <span className="selectIcon">  < AiOutlineDown/> </span>
+                <Select 
+                  id="selectLabel"
+                  className="categoryInput"
+                  // icon={AiOutlineDown}
+                  onChange={e => setCategory(e.target.value)}
+                />
+              </label>
             </div>
 
           </div>

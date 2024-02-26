@@ -21,6 +21,10 @@ export const Container = styled.div`
       margin: 5.6rem 0 2.7rem 0;
     }
 
+    .backButton{
+      margin-top: 1.5rem;
+    }
+
     .PaymentModel{
       display: flex;
       max-width: 25rem;
@@ -56,7 +60,7 @@ export const Container = styled.div`
     
     .creditCardBox{
 
-        display: none;
+        /* display: none; */
         text-align: center;
         max-width: 25rem;
 
@@ -73,6 +77,10 @@ export const Container = styled.div`
           border: 1px solid white;
         }
 
+        .borderError{
+          border: 1px dotted red;
+        }
+
         .creditCardBoxOther{
           display: flex;
           gap: 6px;
@@ -83,7 +91,7 @@ export const Container = styled.div`
         }
 
         .creditCardBoxAfter{
-          display: none;
+          /* display: none; */
         }
 
         .loadingPayment{
@@ -102,7 +110,7 @@ export const Container = styled.div`
         }
 
         .aprovedPayment{
-          display: none;
+          /* display: none; */
           p{
             margin-top: 2rem;
             color: gray;

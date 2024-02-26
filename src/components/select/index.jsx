@@ -26,7 +26,8 @@ export function Select({icon: Icon, value, ...rest}){
       </StyledSelect>
 
       <StyledIcon onClick={handleIconClick} ref={iconRef}>
-      <AiOutlineDown/>
+        
+      < AiOutlineDown/>
       </StyledIcon>
 
     </Container>

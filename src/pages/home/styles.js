@@ -6,6 +6,10 @@ import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
 import {createGlobalStyle} from "styled-components"
 
 
+
+
+
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,6 +23,13 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 export const Container = styled.div`
+
+  .custom-swiper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
 
   display: flex;
   flex-direction: column;
@@ -120,8 +131,8 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2.4rem;
-    /* flex: 1; */
   }
+
 
   li{
     list-style: none;
@@ -174,7 +185,6 @@ export const Container = styled.div`
       >svg{
         font-size: 2rem;
         color: white;
-
         margin-bottom: 1rem;
         margin-left: 9rem;
       }
@@ -195,8 +205,6 @@ export const Container = styled.div`
       gap: 1rem;
 
       align-items: center;
-
-      /* margin-top: -7px; */
       margin-bottom: 7px;
 
       p{
@@ -207,6 +215,34 @@ export const Container = styled.div`
 
   .buttonHome{
     background-color:  ${({theme}) => theme.COLORS.BUTTON_COLOR};
+  }
+
+  .swiper{
+    z-index: 0;
+  }
+
+  /* .swiper-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+
+  @media(min-width: ${DEVICE_BREAKPOINTS.X_SMALL}){
+  .swiper-container {
+    width: 320px;  
+  }
+  }
+
+  @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
+    .swiper-container {
+      width: 768px;
+    }
+  }
+
+  @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+    .swiper-container {
+      width: 1024px;
+    }
   }
 `
 
@@ -236,91 +272,3 @@ export const StyledFilledHeartIcon = styled(PiHeartStraightFill)`
   color: red;
 
 `;
-
-export const CustomSlider = styled(Slider)`
-
-  .slick-track {
-    display: flex !important;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .slick-dots{
-    li {
-      button {
-        &::before {
-          color: white;
-
-        }
-      }
-    }
-  }
-
-  .slick-prev,
-  .slick-next {
-    display: none !important;
-  }
-
-  &.single-slide{
-    .slick-track {
-      /* max-width: 60%; */
-  }}
-`;
-
-
-export const SliderSettings = {
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  initialSlide: 0,
-  responsive: [
-    {
-      breakpoint: 2560,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 2,
-        // infinite: true,
-        dots: true,
-        initialSlide:0,
-      },
-    },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 2,
-        // infinite: true,
-        dots: true,
-        initialSlide:0,
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 2,
-        initialSlide: 0,
-      },
-    },
-    {
-      breakpoint: 580,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        initialSlide: 0,
-      },
-    },
-    {
-      breakpoint: 319,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        initialSlide: 0,
-      },
-    },
-  ],
-};
-
-

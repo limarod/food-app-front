@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 
+
        
 export const Container = styled.div`
   
@@ -39,8 +40,35 @@ export const Container = styled.div`
 
   }
 
+  .largerDevice{
+    display: none;
+  }
+
+  
+
+  table{
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 0.8rem;
+
+    font-size: 1.5rem;
+  }
+
+  td{
+    color: ${({theme}) => theme.COLORS.FONT_PLACEHOLDER};
+  }
+
 
   footer{
     margin-top: 5rem;
+  }
+
+  .tableLargerDevice{
+    display: none;
   }
 `

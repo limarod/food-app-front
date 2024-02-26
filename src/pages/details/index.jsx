@@ -73,6 +73,7 @@ export function Details(){
         currentPage="details"
         shoppingCartNumber={shoppingCartNumber}
         setShoppingCartNumber={setShoppingCartNumber}
+        
       />
 
         { data &&

@@ -1,51 +1,48 @@
-import {Container, StyledButtonText, StyledButtonText2, StyledButton, StyledFilledHeartIcon, CustomSlider, SliderSettings} from "./styles"
+import {Container, StyledButtonText, StyledButtonText2, StyledButton, StyledFilledHeartIcon} from "./styles"
 import {Header} from "../../components/header"
 import {Footer} from "../../components/footer"
 import macarrons from "../../assets/macarrons.png"
-import salada_rav from "../../assets/Dish - Salada Ravanello.png"
 import {PiPencilSimpleLight, PiHeartStraight, PiHeartStraightFill } from "react-icons/pi"
 import {AiOutlineMinus , AiOutlinePlus } from "react-icons/ai"
 import {Menu} from "../menu"
 import { useState, useEffect, useRef, useLayoutEffect  } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { ButtonText } from "../../components/buttonText"
-import { Button } from "../../components/button"
 import { api } from "../../services/api"
 import {useAuth} from "../../hooks/auth"
 import{USER_ROLE} from "../../utils/roles"
+import { useMemo } from "react"
 
-
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"
+
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 
 export function Home (){
 
 
+
   const navigate = useNavigate()
   const params = useParams()
 
-  const {user, addToCartShopping} = useAuth()
+  const {user, addToCartShopping, updateDishsOrderNumber, dishsNumberOrder } = useAuth()
 
 
   const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
-  const [heartIcon, setHeartIcon] = useState({})
-  const [dishsNumberOrder, setDishsNumberOrder] = useState(1)
+
   const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
 
+  const [isFavorite, setIsFavorite] = useState(false)
 
-
-
-  //TENTATIVA DE AJUSTAR OS SLIDES/////////////////////
-  const sliderRefEntrada = useRef();
-  const sliderRefRefeição = useRef();
-  const sliderRefBebidas = useRef();
-  const sliderRefSobremesas = useRef();
-
-  
-  const dishImgUrl = dishs.map(dish => `${api.defaults.baseURL}/files/${dish.image_plate}`)
+  const dishImgUrl = useMemo(() => dishs.map(dish => `${api.defaults.baseURL}/files/${dish.image_plate}`))
 
   function handleUpdateDish(dishId){
     navigate(`/updateDish/${dishId}`)
@@ -59,72 +56,45 @@ export function Home (){
     setDishs(data)
   }
 
-  function toogleHeartIcon(dishId){
 
-    setHeartIcon((prevIcon) =>{
-      const updatedIcons = { ...prevIcon };
+  async function addToFavorites(dishId){
+    console.log(dishId)
+    const dish_id = dishId
+    const response = await api.get("/favorites")
+    const favorites = response.data
+
+    const favoriteItem = favorites.find(dish => dish.dish_id === dish_id && dish.is_favorite === 1 )
 
 
+    if(!favoriteItem){ 
+      await api.post("/favorites",{dish_id})
 
-    // Verifica se o ícone para o dishId já existe no estado 
-    // Se não existir, inicializa com o ícone do coração preenchido
-    if (!updatedIcons[dishId]) { 
-      updatedIcons[dishId] = <StyledFilledHeartIcon />;
-    } else {
-      // Se existir, alterna entre preenchido e vazio
-      updatedIcons[dishId] = (updatedIcons[dishId].type === PiHeartStraight) 
-        ? <StyledFilledHeartIcon />
-        : <PiHeartStraight/>;
+    }else{
+      await api.delete(`/favorites/${favoriteItem.id }`)
     }
-    console.log(updatedIcons)
-      
-    return updatedIcons
-      
-    })
-  }
-  
-  function addDishsOrder(dishId){
-    
-    setDishsNumberOrder(prevState => ({
-      ...prevState,
-      [dishId]: (prevState[dishId] || 1) + 1,
-    }));
-
 
   }
 
-  function minusDishOrder(dishId){
+  const [heartIcon, setHeartIcon] = useState({})
 
-    setDishsNumberOrder((prevState) => {
-      const currentCount = prevState[dishId] || 1;
-      if(currentCount > 0){
-        return{
-          ...prevState, [dishId]: currentCount - 1,
-        };
-      }
-      return prevState;
-    })
-    
-  }
+  useEffect(() =>{
+    async function fetchFavorites(){
 
+      const response = await api.get("/favorites")
+      const favorites = response.data
 
-  useEffect(() => {
-    api.get("/dishs").then(data => {
-         setDishs(data);
-         sliderRefEntrada.current.slickGoTo(0);
-         sliderRefRefeição.current.slickGoTo(0);
-         sliderRefBebidas.current.slickGoTo(0);
-         sliderRefSobremesas.current.slickGoTo(0);
-    });
+      const updatedIcons = {};
 
-    setTimeout(() => {
+      favorites.forEach((favorite) =>{
+        updatedIcons[favorite.dish_id] = <StyledFilledHeartIcon/>
+      });
 
-      sliderRefEntrada.current.slickGoTo(0);
-      sliderRefRefeição.current.slickGoTo(0);
-      sliderRefBebidas.current.slickGoTo(0);
-      sliderRefSobremesas.current.slickGoTo(0);
-    }, 1000);
-  }, []);
+      setHeartIcon(updatedIcons)
+
+    }
+
+    fetchFavorites()
+  }, [addToFavorites])
 
 
   return(
@@ -163,17 +133,38 @@ export function Home (){
 
 
           <div className="main">
+
             <div className="cardsEntrada">
               <h3>Entradas</h3>
               
-              <CustomSlider  ref={sliderRefEntrada} {...SliderSettings}>
+              <Swiper 
+                 modules={[Navigation, Pagination, Scrollbar, A11y]}
+                 breakpoints={{
+                  0:{
+                    slidesPerView: 2,
+                  },
+                  320: {
+                    slidesPerView: 2,
+                  },
+                  768:{
+                    slidesPerView:3,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                  }
+                }}
+                 spaceBetween={15}
+                 className="custom-swiper"
+              >
                
               {
                 dishs && 
            
                 dishs.filter(dish => dish.category === "Entrada")
                 .map(dish => (
+                  
                   <li key={dish.id.toString()}>
+                    <SwiperSlide key={dish.id.toString()}>
                     <div className="backgroundCard">
                       
                       { 
@@ -186,10 +177,10 @@ export function Home (){
                       }
                       {
                         [USER_ROLE.CUSTOMER].includes(user.role) &&
-                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
-                        onClick ={(event) => {
-                        event.preventDefault();
-                        toogleHeartIcon(dish.id)
+                        <StyledButtonText title={(heartIcon[dish.id]) || <PiHeartStraight/>} 
+                          onClick ={(event) => {
+                          event.preventDefault();
+                          addToFavorites(dish.id);
                         }}
                         />
                       }
@@ -209,39 +200,59 @@ export function Home (){
                           {  
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                               <div className="AddDishs">
-                                <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                                <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
                                 <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                                <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                                <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => updateDishsOrderNumber(dish.id, 'add')}/>
                               </div>
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <StyledButton className="buttonHome"
                               title={"Incluir"} 
-                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                              onClick ={(event) => {event.preventDefault() ; addToCartShopping(dish)}}
                             />
                           }
                           
 
 
                     </div>
+                    </SwiperSlide>
                   </li>
                 ))
                         
               }
-              </CustomSlider>
+              </Swiper>
             </div>
 
             <div className="cardsRefeicao">
               <h3>Refeições</h3>
-              <CustomSlider  ref={sliderRefRefeição}  {...SliderSettings}>
+              <Swiper 
+                 modules={[Navigation, Pagination, Scrollbar, A11y]}
+                 breakpoints={{
+                  0:{
+                    slidesPerView: 2,
+                  },
+                  320: {
+                    slidesPerView: 2,
+                  },
+                  768:{
+                    slidesPerView:3,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                  }
+                }}
+                 spaceBetween={15}
+                 className="custom-swiper"
+              >
               {
                 dishs && 
            
                 dishs.filter(dish => dish.category === "Refeição")
                 .map(dish => (
                   <li key={dish.id.toString()}>
+                    <SwiperSlide key={dish.id.toString()}>
                     <div className="backgroundCard">
                       
                       { 
@@ -254,10 +265,10 @@ export function Home (){
                       }
                       {
                         [USER_ROLE.CUSTOMER].includes(user.role) &&
-                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
+                        <StyledButtonText title={(heartIcon && heartIcon[dish.id]) || <PiHeartStraight/>} 
                         onClick ={(event) => {
                         event.preventDefault();
-                        toogleHeartIcon(dish.id)
+                        addToFavorites(dish.id)
                         }}
                         />
                       }
@@ -271,14 +282,14 @@ export function Home (){
                           className="imgDISH"
                       />
                         <h4> {dish.name} </h4>
-                        <h4> {dish.price}</h4>
+                        <h3> {dish.price}</h3>
                         {  
                           [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <div className="AddDishs">
-                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
                               <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'add')}}/>
                             </div>
                           }
                           {
@@ -293,22 +304,42 @@ export function Home (){
 
 
                     </div>
+                    </SwiperSlide>
                   </li>
                 ))
               
               }
-              </CustomSlider>
+              </Swiper>
             </div>
 
             <div className="cardsBebida">
               <h3>Bebidas</h3>
-              <CustomSlider  ref={sliderRefBebidas}  {...SliderSettings}>
+              <Swiper 
+                 modules={[Navigation, Pagination, Scrollbar, A11y]}
+                 breakpoints={{
+                  0:{
+                    slidesPerView: 2,
+                  },
+                  320: {
+                    slidesPerView: 2,
+                  },
+                  768:{
+                    slidesPerView:3,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                  }
+                }}
+                 spaceBetween={15}
+                 className="custom-swiper"            
+              >
                 {
                 dishs && 
            
                 dishs.filter(dish => dish.category === "Bebida")
                 .map(dish => (
                   <li key={dish.id.toString()}>
+                    <SwiperSlide key={dish.id.toString()}>
                     <div className="backgroundCard">
                       
                       { 
@@ -321,10 +352,10 @@ export function Home (){
                       }
                       {
                         [USER_ROLE.CUSTOMER].includes(user.role) &&
-                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
+                        <StyledButtonText title={ (heartIcon && heartIcon[dish.id]) || <PiHeartStraight/>} 
                         onClick ={(event) => {
                         event.preventDefault();
-                        toogleHeartIcon(dish.id)
+                        addToFavorites(dish.id)
                         }}
                         />
                       }
@@ -338,14 +369,14 @@ export function Home (){
                           className="imgDISH"
                       />
                         <h4> {dish.name} </h4>
-                        <h4> {dish.price}</h4>
+                        <h3> {dish.price}</h3>
                         {  
                           [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <div className="AddDishs">
-                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
                               <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'add')}}/>
                             </div>
                           }
                           {
@@ -360,22 +391,42 @@ export function Home (){
 
 
                     </div>
+                    </SwiperSlide>
                   </li>
                 ))
               
               }
-              </CustomSlider>
+              </Swiper>
             </div>
 
             <div className="cardsSobremesa">
             <h3>Sobremesas</h3>
-            <CustomSlider   ref={sliderRefSobremesas}  {...SliderSettings}>
+            <Swiper 
+                 modules={[Navigation, Pagination, Scrollbar, A11y]}
+                 breakpoints={{
+                  0:{
+                    slidesPerView: 2,
+                  },
+                  320: {
+                    slidesPerView: 2,
+                  },
+                  768:{
+                    slidesPerView:3,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                  }
+                }}
+                 spaceBetween={15}
+                 className="custom-swiper"
+              >
               {
                 dishs && 
            
                 dishs.filter(dish => dish.category === "Sobremesa")
                 .map(dish => (
                   <li key={dish.id.toString()}>
+                    <SwiperSlide key={dish.id.toString()}>
                     <div className="backgroundCard">
                       
                       { 
@@ -388,10 +439,10 @@ export function Home (){
                       }
                       {
                         [USER_ROLE.CUSTOMER].includes(user.role) &&
-                        <StyledButtonText title={heartIcon[dish.id] || <PiHeartStraight/>} 
+                        <StyledButtonText title={(heartIcon && heartIcon[dish.id]) || <PiHeartStraight/>} 
                         onClick ={(event) => {
                         event.preventDefault();
-                        toogleHeartIcon(dish.id)
+                        addToFavorites(dish.id)
                         }}
                         />
                       }
@@ -405,14 +456,14 @@ export function Home (){
                           className="imgDISH"
                       />
                         <h4> {dish.name} </h4>
-                        <h4> {dish.price}</h4>
+                        <h3> {dish.price}</h3>
                         {  
                           [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <div className="AddDishs">
-                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => minusDishOrder(dish.id)}/>
+                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
                               <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => addDishsOrder(dish.id)}/>
+                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'add')}}/>
                             </div>
                           }
                           {
@@ -427,11 +478,12 @@ export function Home (){
 
 
                     </div>
+                    </SwiperSlide>
                   </li>
                 ))
               
               }
-              </CustomSlider>
+              </Swiper>
             </div>
 
           </div>
@@ -444,29 +496,4 @@ export function Home (){
     </Container>
   )
 }
-
-
-
-    // useEffect(() => {
-  //   const handleMessage = (event) => {
-  //     console.log('Received MessageEvent:', event);
-  //   };
-
-  //   window.addEventListener('message', handleMessage);
-
-  //   return () => {
-  //     window.removeEventListener('message', handleMessage);
-  //   };
-  // }, []);
-
-//   Busca no Código-Fonte:
-
-// Procure no seu código por chamadas postMessage ou por qualquer código que envie mensagens entre janelas ou frames.
-// Extensões do Navegador:
-
-// Verifique se há extensões do navegador instaladas que possam estar interagindo com sua aplicação.
-// Libs Externas:
-
-// Se você estiver usando bibliotecas externas, verifique a documentação para garantir que não esteja ocorrendo alguma comunicação inesperada.
-
 

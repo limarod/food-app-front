@@ -7,7 +7,15 @@ function AuthProvider({children}){
   const [data, setData] = useState({})
   const [dishs, setDishs] = useState()
    
-  const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
+  const [shoppingCartNumber, setShoppingCartNumber] = useState(() => {
+    const storedShoppingCartNumber = localStorage.getItem("@foodExplorer:shoppingCartNumber");
+    return storedShoppingCartNumber ? parseInt(storedShoppingCartNumber, 10) : 0
+  })
+
+  const[ dishsNumberOrder, setDishsNumberOrder] = useState(1)
+
+
+
 
   async function signIn({email, password}){
     try {
@@ -68,14 +76,42 @@ function AuthProvider({children}){
     }
   }
 
+  function updateDishsOrderNumber(dishId, operation){
+    setDishsNumberOrder((prevState) => { 
+      const currentQuantity = prevState[dishId] || 1;
 
-  function addToCartShopping(){
-     setShoppingCartNumber((prevState) => prevState + 1 )
+      let updatedState
+    
+      if (operation === 'add'){
+        updatedState = {...prevState, [dishId]: currentQuantity + 1};
+      }else if(operation === 'minus' && currentQuantity > 0){
+        updatedState = {...prevState, [dishId]: currentQuantity - 1};
+      }
+     
+
+      return {...prevState, ...updatedState}
+    })
   }
 
-     
-  
-    useEffect(() => {
+  async function addToCartShopping(dish){
+    setShoppingCartNumber((prevState) => prevState + 1 )
+    const quantity = dishsNumberOrder[dish.id] || 1 
+    
+    await api.post("/shoppingCart", {
+      name: dish.name,
+      price: dish.price,
+      image_plate: dish.image_plate,
+      quantity,
+    })
+
+    localStorage.setItem("@foodExplorer:shoppingCartNumber", shoppingCartNumber + 1);
+    setDishsNumberOrder(1)
+  }
+
+
+
+
+  useEffect(() => {
         const user = localStorage.getItem("@foodExplorer:user");
 
         if(user){
@@ -90,10 +126,13 @@ function AuthProvider({children}){
       <AuthContext.Provider value={{
         addToCartShopping,
         shoppingCartNumber,
+        setShoppingCartNumber,
         signIn,
         signOut,
         updateProfile,
         updateDishImg,
+        updateDishsOrderNumber,
+        dishsNumberOrder,
         user:data.user}}>
         {children}
       </AuthContext.Provider>

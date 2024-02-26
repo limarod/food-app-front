@@ -28,6 +28,11 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
     navigate("/newDish")
     document.body.classList.remove("menu-open")
   }
+  function handleGoToFavorites(event){
+    event.preventDefault()
+    navigate("/favorites")
+    document.body.classList.remove("menu-open")
+  }
 
    
   useEffect(() =>{
@@ -67,6 +72,15 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
             className="buttonText" 
             title={"Novo prato"}
             onClick={(event) => handleGoToNewDish(event)}
+          />
+        }
+
+        {
+         [USER_ROLE.CUSTOMER].includes(user.role) &&
+          <ButtonText 
+            className="buttonText" 
+            title={"Favoritos"}
+            onClick={(event) => handleGoToFavorites(event)}
           />
         }
         <div className="border"></div>

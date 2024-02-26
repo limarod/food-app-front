@@ -1,10 +1,15 @@
 import { styled } from "styled-components";
 import { ButtonText } from "../../components/buttonText";
+import{ } from "../../styles/theme"
 
        
 export const Container = styled.div`
  
   main{
+
+    li{
+      list-style: none;
+    }
 
     padding:0 0 0 3.5rem;
 
@@ -13,11 +18,19 @@ export const Container = styled.div`
       margin: 5.6rem 0 2.7rem 0;
     }
     h2{
-      font-size: 2rem;
+      font-size: 1.4rem;
     }
 
+    h4{
+      font-size: 1.1rem;
+    }
+
+    .priceH4{
+        color: ${({theme}) => theme.COLORS.FONT_PRICE};
+      }
+
     img{
-      width: 7.2rem;
+      width: 7.5rem;
     }
 
     .dishsContainer{

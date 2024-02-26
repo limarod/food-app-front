@@ -13,7 +13,6 @@ export const Container = styled.div`
 
 
 
-
   main{
     flex-grow: 1;
 
@@ -137,28 +136,71 @@ export const Container = styled.div`
   }
 
   @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
-    .imageInput{
-      width: 20rem;
-    }
-  }
+    
 
-  @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
     .nameInput{
       width: 37rem;
     }
-  }
-  
-  @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+
     .categoryInput{
       width: 25rem;
     }
-  }
-  
-  @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+
     .priceInput{
       width: 15rem;
     }
+
+    .inputImg{
+      gap: 0;
+    }
+
+   
+    //////////////////////////////////////////////////
+
+    .selectInput{
+      background-color: ${({theme}) => theme.COLORS.SecondBackground};
+      border-radius: 0.6rem;
+    }
+
+    .selectIcon{
+      position: absolute;
+      z-index: 1;
+      font-size: 2.8rem;
+      transform: translate(220px, 5%);
+    }
   }
+
+  .imageInput{
+      width: 22rem;
+      background-color: ${({theme}) => theme.COLORS.SecondBackground};
+      height: 3.9rem;
+      border-radius: 0.6rem;
+      margin-top: 1.5rem;
+    }
+   
+    .labelInputImg{
+      display: inline-block;
+      position: relative;
+      
+    }
+
+    .selectImage{
+      position: absolute;
+      padding: 1rem 0;
+      font-size: 1.2rem;
+      transform: translate(50%, 10%);
+      
+    }
+
+    .selectImageIcon{
+      position: absolute;
+      z-index: 1;
+      font-size: 2.8rem;
+      transform: translate(100%, -0%);
+      
+    }
+    
+
 
   @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
     footer{
