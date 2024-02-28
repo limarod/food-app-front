@@ -1,7 +1,6 @@
 import {styled} from "styled-components"
 import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
 
-
 export const Container = styled.div`
 
   display: flex;
@@ -88,6 +87,7 @@ export const Container = styled.div`
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+
       }
   }
 
@@ -103,9 +103,12 @@ export const Container = styled.div`
     flex-wrap: wrap;
     gap: 1rem;
 
+  
+
     @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
      margin: 0;
-     width: 70rem;
+     min-width: 55rem;
+     
     }
   }
 
@@ -136,8 +139,11 @@ export const Container = styled.div`
   }
   
   @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+
+
     .priceInput{
       width: 15rem;
+      
     }
   }
 

@@ -83,7 +83,7 @@ export const Container = styled.div`
 
     @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
      margin: 0;
-     width: 70rem;
+     max-width: 55rem;
     }
   }
 
@@ -145,6 +145,7 @@ export const Container = styled.div`
     .categoryInput{
       width: 25rem;
     }
+    
 
     .priceInput{
       width: 15rem;

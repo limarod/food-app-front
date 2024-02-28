@@ -163,14 +163,16 @@ export const Container = styled.div`
     }
 
     h4{
-      font-size: 1.15rem;
-      font-weight: 400;
+      font-size: 1.5rem;
+      font-weight: 700;
       margin-bottom: 2rem;
       height: 4.5rem;
+
     }
 
     h3{
-      font-size: 1.15rem;
+      font-size: 1.5rem;
+      font-weight: 700;
       margin-bottom: 1rem;
       color: ${({theme}) => theme.COLORS.FONT_PRICE};
     }
@@ -192,7 +194,7 @@ export const Container = styled.div`
 
     .imgDISH{
       width: 10.5rem;
-      height: auto;
+      height: 12.5rem;
       margin: 10px 0 20px 0 ;
 
       @media(min-width: 426px){

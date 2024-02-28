@@ -255,7 +255,7 @@ export function UpdateDish(){
 
               </div>
 
-                <div className="titleEditFlex">
+                <div className="titleEditFlex priceBox">
                   <p>Preço</p>
                     <Input 
                       className="priceInput"
