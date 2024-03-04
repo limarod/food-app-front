@@ -107,7 +107,7 @@ export function Details(){
                       className="buttonDetails"
                       icon={PiReceipt}
                       title={` pedir -  ${data.price}` }
-                      onClick ={(event) => {event.preventDefault() ; addToCartShopping(data)}}
+                      onClick ={(event) => { addToCartShopping(event, data)}}
                     />
                   
                   </div>
