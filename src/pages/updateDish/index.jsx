@@ -56,7 +56,6 @@ export function UpdateDish(){
       fileUploadForm.append("dishImage", imgDishFile);
 
       const response = await api.patch(`/menu/dishImage/${params.id}`, fileUploadForm );
-      console.log(response.data)
       dish.image_plate = response.data.dishImage
     }
     
@@ -100,7 +99,6 @@ export function UpdateDish(){
 
   async function handleRemoveTag(tagDeleted){
 
-    console.log(tagDeleted)
     await api.delete(`/ingredients/${tagDeleted}`)
 
     setIngredientsList(prevState => prevState.filter(tag => tag !== tagDeleted) )
@@ -140,7 +138,6 @@ export function UpdateDish(){
       const response = await api.get(`/menu/${params.id}`);
       
       setData(response.data);
-      console.log("Data from API:", response.data)
     }
     fetchDish();
 

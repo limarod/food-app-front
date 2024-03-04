@@ -18,7 +18,7 @@ export const Container = styled.header`
   .container{
     
     
-    .favorites, .buttonDetails, .buttonHistory, .buttonSignOut, .search{
+    .favorites, .buttonDetails, .buttonHistory, .buttonSignOut, .search, .history{
         display: none;
     }
    
@@ -54,15 +54,24 @@ export const Container = styled.header`
     .iconLogo{
       font-size: 3.9rem;
       color: #065E7C;
+
+      @media (min-width: ${DEVICE_BREAKPOINTS.X_SMALL}) {
+        font-size: 3rem;
+      }
     }
 
     h1{
       font-size: 2.3rem;
+      @media (min-width: ${DEVICE_BREAKPOINTS.X_SMALL}) {
+        font-size: 2rem;
+      }
     }
 
  
-    .favorites{
-      font-size: 1.7rem;
+    .favorites, .history{
+      font-size: 1.5rem;
+      gap: 2rem;
+      color: bisque;
     }
     
     .buttonSignOut{
@@ -79,14 +88,8 @@ export const Container = styled.header`
       }
     }
 
-    
-    @media (min-width: ${DEVICE_BREAKPOINTS.X_SMALL}){
-    
-
-    }
-
     @media (min-width: ${DEVICE_BREAKPOINTS.LARGE}) {
-      .favorites, .buttonDetails, .buttonHistory, .buttonSignOut, .search{
+      .favorites, .buttonDetails, .buttonHistory, .buttonSignOut, .search, .history{
         display: flex;
       }
     }

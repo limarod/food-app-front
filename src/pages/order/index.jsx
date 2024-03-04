@@ -33,15 +33,20 @@ export function Order(){
   }
 
   async function removeItemShoppingCart(dishId){
-    
+    const response = await api.get("/shoppingCart")
+    const shoppingCartItems = response.data
+
+
+    const quantityItemDeleted = shoppingCartItems.filter((item) => (item.id === dishId)).map(item => item.quantity)
+
     const confirm = window.confirm("Deseja realmente excluir?")
 
     
     if(confirm){
       await api.delete(`/shoppingCart/${dishId}`)
 
-      setShoppingCartNumber((prevState) => prevState - 1)
-      localStorage.setItem("@foodExplorer:shoppingCartNumber", JSON.parse(shoppingCartNumber - 1))
+      setShoppingCartNumber((prevState) => prevState - quantityItemDeleted)
+      localStorage.setItem("@foodExplorer:shoppingCartNumber", JSON.parse(shoppingCartNumber - Number(quantityItemDeleted)))
     }else{
       return
     }
@@ -52,6 +57,15 @@ export function Order(){
     event.preventDefault()
     navigate("/payment")
   }
+
+  const calculateTotalPrice = (dish) =>{
+    const quantity = dish.quantity
+    const priceAsNumber = parseFloat(dish.price.replace(',', '.'));
+    const totalPrice = quantity * priceAsNumber;
+    
+    return (totalPrice.toFixed(2).replace('.', ','))
+  }
+
   
   useEffect(() => {
 
@@ -82,7 +96,7 @@ export function Order(){
                   <img src={dishImgUrl.find(url => url.includes(dish.image_plate))} alt={dish.name} />
                   <div>
                     <h2>{dish.name}</h2>
-                    <h4 className="priceH4">{dish.price}</h4>
+                    <h4 className="priceH4">{calculateTotalPrice(dish)}</h4>
                     <h4>{dish.quantity} Quantidade(s)</h4>
                     <ButtonText 
                       className="newButtonText" 

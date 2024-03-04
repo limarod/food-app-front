@@ -39,19 +39,24 @@ export function Payment(){
     const response = await api.get("/shoppingCart")
     const shoppingCartItems = response.data
     const user_id = user.id
-    
-    for (const item of shoppingCartItems){
-      const price = parseFloat(item.price.replace(',','.'))
 
-      const dataItem = {
-        dish_id: item.id,
+    const responseOrders = await api.post("/orders", { user_id });
+    const order_id = responseOrders.data.order_id
+
+
+      const orderItems = shoppingCartItems.map((item) => ({
         name: item.name,
         quantity: item.quantity,
-        total_price: (price * item.quantity),
-        user_id: user_id
-      }
-      await api.post("/history", dataItem)
+        total_price: parseFloat(item.price.replace(",",".")) * item.quantity,
+        user_id: user_id,
+      }))
 
+
+      if(order_id){
+        await api.post("/history",{
+          orderItems: orderItems, 
+          order_id: order_id,
+        })
     }
 
     localStorage.clear()

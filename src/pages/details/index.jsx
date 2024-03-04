@@ -17,10 +17,9 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 
 export function Details(){
-  const {user, addToCartShopping} = useAuth()
+  const {user, addToCartShopping, updateDishsOrderNumber, dishsNumberOrder} = useAuth()
 
   const [data, setData] = useState(null)
-  const [dishsNumberOrder, setDishsNumberOrder] = useState(1)
   const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
 
   const params = useParams();
@@ -30,17 +29,6 @@ export function Details(){
     navigate(`/updateDish/${dishId}`)
   }
 
-  function addDishsOrder(){
- 
-    setDishsNumberOrder(dishsNumberOrder + 1);
-  }
-
-  function minusDishOrder(){
-    if(dishsNumberOrder === 1){
-      return
-    }
-    setDishsNumberOrder(dishsNumberOrder - 1);   
-  }
 
   
   useEffect(() =>{
@@ -48,7 +36,6 @@ export function Details(){
       const response = await api.get(`/menu/${params.id}`);
       
       setData(response.data);
-      // console.log(data)
     }
 
     fetchDishDetails();
@@ -112,9 +99,9 @@ export function Details(){
                 { [USER_ROLE.CUSTOMER].includes(user.role) &&
 
                   <div className="AddDishs">
-                    <StyledButtonText2 title={< AiOutlineMinus/>} onClick={minusDishOrder}/>
-                    <p>{dishsNumberOrder}</p>
-                    <StyledButtonText2 title={< AiOutlinePlus/>} onClick={addDishsOrder}/>
+                    <StyledButtonText2 title={< AiOutlineMinus/>} onClick={(event) => { updateDishsOrderNumber(event, data.id, 'minus')}}/>
+                    <p>{dishsNumberOrder[data.id] || 1 }</p>
+                    <StyledButtonText2 title={< AiOutlinePlus/>} onClick={(event) => updateDishsOrderNumber(event, data.id, 'add')}/>
         
                     <NewButton 
                       className="buttonDetails"

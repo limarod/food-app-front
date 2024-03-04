@@ -1,10 +1,25 @@
 import { styled } from "styled-components";
 import { ButtonText } from "../../components/buttonText";
+import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
 
        
 export const Container = styled.div`
  
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+
+
   main{
+
+    @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
+        .container{
+          display: flex;
+          gap: 10rem;
+          flex-wrap: wrap;
+        }
+    }
+
 
     padding:0 0 0 3.5rem;
 
@@ -27,11 +42,15 @@ export const Container = styled.div`
       align-items: center;
       gap: 1.5rem;
       
-      div{
+      .dataContainer{
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
       }
+
+ 
+    
+
     }
 
     .newButtonText{

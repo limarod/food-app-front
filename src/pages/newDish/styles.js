@@ -3,9 +3,10 @@ import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
 
 export const Container = styled.div`
 
-  display: flex;
-  flex-direction: column;
-  /* min-width: 100vh; */
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 
   .content{
     flex: 1;

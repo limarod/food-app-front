@@ -25,7 +25,6 @@ export function Favorites(){
     async function fetchData(){
        const response = await api.get("/favorites")
        setData(response.data)
-       console.log(response.data)
       }
     fetchData()
    
@@ -37,14 +36,14 @@ export function Favorites(){
         <main>
         <NewButtonText title={"Voltar"} to="/"/>
           <h1>Favoritos</h1>
+        <div className="container">
             {
             data &&
              data.map((item, index) => (
               
           <div className="dishsContainer" key={index}>
-              
               <img src={`${api.defaults.baseURL}/files/${item.image_plate}`} alt="imagem do prato" />
-              <div>
+              <div className="dataContainer">
                 <h2>{item.name}</h2>
                 <ButtonText 
                   className="buttonOrder" 
@@ -61,7 +60,7 @@ export function Favorites(){
            ))
           }
 
-         
+        </div>
 
         </main>
 

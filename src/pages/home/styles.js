@@ -160,6 +160,7 @@ export const Container = styled.div`
       flex-direction: column;
       text-align: center;
       justify-content: space-between;
+      min-height: 1rem;
     }
 
     h4{
@@ -182,7 +183,7 @@ export const Container = styled.div`
         height: 3rem
       }
     }
-
+    
     span{
       >svg{
         font-size: 2rem;

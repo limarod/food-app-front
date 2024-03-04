@@ -34,6 +34,18 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
     document.body.classList.remove("menu-open")
   }
 
+  function handleKeyPress(e){
+    if(e.key === "Enter"){
+      onCloseMenu()
+    }
+
+  }
+
+  function handleToorderHistory(event){
+    event.preventDefault();
+    navigate("/orderHistory")
+  }
+
    
   useEffect(() =>{
     async function handleSearch(){
@@ -57,12 +69,8 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
             type="text" 
             placeholder="Busque por pratos ou ingredientes"
             onChange={(e) => setSearch( e.target.value)}
+            onKeyPress={handleKeyPress}
           />
-                {/* 
-            <ButtonText
-              title={"Pesquisar"}
-              onClick={() => onCloseMenu()}
-            /> */}
         </div>
 
    
@@ -83,7 +91,16 @@ export function Menu({sideMenuIsOpen, onCloseMenu, onSearchComplete  }){
             onClick={(event) => handleGoToFavorites(event)}
           />
         }
+
         <div className="border"></div>
+
+        <ButtonText 
+            className="buttonText" 
+            title={"Histórico"}
+            onClick={ (event) => handleToorderHistory(event)}
+          />
+        <div className="border"></div>
+        
         <ButtonText 
           className="buttonText" 
           title={"Sair"} 

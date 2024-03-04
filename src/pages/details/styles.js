@@ -5,8 +5,8 @@ import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
 
 export const Container = styled.div`
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 
 

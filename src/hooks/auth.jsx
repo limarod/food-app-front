@@ -14,7 +14,7 @@ function AuthProvider({children}){
 
   const[ dishsNumberOrder, setDishsNumberOrder] = useState(1)
 
-
+ 
 
 
   async function signIn({email, password}){
@@ -68,7 +68,6 @@ function AuthProvider({children}){
       const response = await api.get("/dishs")
       const {dish} = response.data
 
-      console.log(dish)
       setDishs(dish)
 
     } catch (error) {
@@ -76,8 +75,11 @@ function AuthProvider({children}){
     }
   }
 
-  function updateDishsOrderNumber(dishId, operation){
+  function updateDishsOrderNumber(event, dishId, operation){
+    event.preventDefault()
+
     setDishsNumberOrder((prevState) => { 
+      
       const currentQuantity = prevState[dishId] || 1;
 
       let updatedState
@@ -88,34 +90,32 @@ function AuthProvider({children}){
         updatedState = {...prevState, [dishId]: currentQuantity - 1};
       }
      
-
       return {...prevState, ...updatedState}
     })
   }
 
-  async function addToCartShopping(dish){
-    setShoppingCartNumber((prevState) => prevState + 1 )
+  async function addToCartShopping(event, dish){
+    event.preventDefault()
     const quantity = dishsNumberOrder[dish.id] || 1 
     
     await api.post("/shoppingCart", {
-      name: dish.name,
-      price: dish.price,
-      image_plate: dish.image_plate,
+      
+      dish_id: dish.id,
       quantity,
+      
     })
 
-    localStorage.setItem("@foodExplorer:shoppingCartNumber", shoppingCartNumber + 1);
+    setShoppingCartNumber((prevState) => prevState + quantity)
+    
+    localStorage.setItem("@foodExplorer:shoppingCartNumber", shoppingCartNumber + quantity );
+
     setDishsNumberOrder(1)
   }
-
-
-
 
   useEffect(() => {
         const user = localStorage.getItem("@foodExplorer:user");
 
         if(user){
-
           setData({
             user: JSON.parse(user)
           })
@@ -133,6 +133,7 @@ function AuthProvider({children}){
         updateDishImg,
         updateDishsOrderNumber,
         dishsNumberOrder,
+        setDishsNumberOrder,
         user:data.user}}>
         {children}
       </AuthContext.Provider>

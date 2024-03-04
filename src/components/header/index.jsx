@@ -22,6 +22,11 @@ export function Header({onOpenMenu, currentPage, onSearchComplete }){
 
   const [search, setSearch] = useState("")
 
+  function handleToMenu(event){
+    event.preventDefault();
+    navigate("/")
+  }
+
   function handleGoToShoppingCart(event){
     event.preventDefault();
     navigate("/order")
@@ -46,12 +51,17 @@ export function Header({onOpenMenu, currentPage, onSearchComplete }){
     event.preventDefault();
     navigate("/favorites")
   }
-
+  function handleToorderHistory(event){
+    event.preventDefault();
+    navigate("/orderHistory")
+  }
 
   useEffect(() =>{
     async function handleSearch(){
       const response = await api.get(`/menu?name=${search}&ingredients=${search}`)
-      onSearchComplete(response.data)
+      if(typeof onSearchComplete === 'function'){
+        onSearchComplete(response.data)
+      }
       
     }
     handleSearch()
@@ -72,8 +82,8 @@ export function Header({onOpenMenu, currentPage, onSearchComplete }){
         }
         
         <div className="foodExplorer">
-          <BiFoodMenu className="iconLogo" />
-          <h1>Food explorer</h1>
+          <BiFoodMenu onClick={(event) => handleToMenu(event)} className="iconLogo"  style={{cursor: 'pointer'}}/>
+          <h1 onClick={(event) => handleToMenu(event)} style={{cursor: 'pointer'}} >Food explorer</h1>
         { 
           [USER_ROLE.ADMIN].includes(user.role) &&
             
@@ -97,9 +107,15 @@ export function Header({onOpenMenu, currentPage, onSearchComplete }){
             [USER_ROLE.CUSTOMER].includes(user.role) &&
             <div className="favorites">
               <ButtonText
-                title={"Meus favoritos"}
+                title={"Favoritos"}
                 className="favorites"
                 onClick={ (event) => handleToFavorites(event)}
+              />
+
+              <ButtonText
+                title={"Histórico"}
+                className="history"
+                onClick={ (event) => handleToorderHistory(event)}
               />
            </div>
         }
@@ -168,13 +184,6 @@ export function Header({onOpenMenu, currentPage, onSearchComplete }){
             </div>
         }
 
-        {/* { 
-          [USER_ROLE.ADMIN].includes(user.role) &&
-            <>
-              <small>{user.role}</small> 
-              <small className="userNameDevice"> {user.name}</small>    
-            </>
-        } */}
 
       </div>
 

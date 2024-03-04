@@ -32,15 +32,16 @@ export function Home (){
   const navigate = useNavigate()
   const params = useParams()
 
-  const {user, addToCartShopping, updateDishsOrderNumber, dishsNumberOrder } = useAuth()
+  const {user, addToCartShopping, dishsNumberOrder, updateDishsOrderNumber} = useAuth()
 
 
   const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false)
   const [dishs, setDishs] = useState([])
 
   const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
+  const [heartIcon, setHeartIcon] = useState({})
 
-  const [isFavorite, setIsFavorite] = useState(false)
+
 
   const dishImgUrl = useMemo(() => dishs.map(dish => `${api.defaults.baseURL}/files/${dish.image_plate}`))
 
@@ -56,9 +57,7 @@ export function Home (){
     setDishs(data)
   }
 
-
   async function addToFavorites(dishId){
-    console.log(dishId)
     const dish_id = dishId
     const response = await api.get("/favorites")
     const favorites = response.data
@@ -75,7 +74,14 @@ export function Home (){
 
   }
 
-  const [heartIcon, setHeartIcon] = useState({})
+  const calculateTotalPrice = (dish) =>{
+    const quantity = dishsNumberOrder[dish.id] || 1;
+    const priceAsNumber = parseFloat(dish.price.replace(',', '.'));
+    const totalPrice = quantity * priceAsNumber;
+    
+    return (totalPrice.toFixed(2).replace('.', ','))
+  }
+
 
   useEffect(() =>{
     async function fetchFavorites(){
@@ -122,7 +128,7 @@ export function Home (){
           setShoppingCartNumber={setShoppingCartNumber}
         />
 
-        <div className="content" menuOpen={sideMenuIsOpen}>
+        <div className="content" menuopen={sideMenuIsOpen.toString()}>
           <div className="homeImg">
             <img src={macarrons} alt="imagem de macarrons e frutas" />
             <div className="homeImgBackground">
@@ -195,22 +201,22 @@ export function Home (){
                       />
                         <div className="name-Price">
                           <h4> {dish.name} </h4>
-                          <h3> {dish.price}</h3>
+                          <h3> R$ {calculateTotalPrice(dish)}</h3>
                         </div>
                           {  
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                               <div className="AddDishs">
-                                <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
+                                <StyledButtonText2 title={< AiOutlineMinus/>} onClick={(event) => { updateDishsOrderNumber(event, dish.id, 'minus')}}/>
                                 <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                                <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => updateDishsOrderNumber(dish.id, 'add')}/>
+                                <StyledButtonText2 title={< AiOutlinePlus/>} onClick={(event) => updateDishsOrderNumber(event, dish.id, 'add')}/>
                               </div>
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <StyledButton className="buttonHome"
                               title={"Incluir"} 
-                              onClick ={(event) => {event.preventDefault() ; addToCartShopping(dish)}}
+                              onClick ={(event) => { addToCartShopping(event, dish)}}
                             />
                           }
                           
@@ -281,23 +287,25 @@ export function Home (){
                           handleDetails(dish.id)}}
                           className="imgDISH"
                       />
+                      <div className="name-Price">
                         <h4> {dish.name} </h4>
-                        <h3> {dish.price}</h3>
+                        <h3> R$ {calculateTotalPrice(dish)}</h3>
+                      </div>
                         {  
                           [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <div className="AddDishs">
-                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
-                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+                          <div className="AddDishs">
+                          <StyledButtonText2 title={< AiOutlineMinus/>} onClick={(event) => { updateDishsOrderNumber(event, dish.id, 'minus')}}/>
+                          <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'add')}}/>
-                            </div>
+                          <StyledButtonText2 title={< AiOutlinePlus/>} onClick={(event) => updateDishsOrderNumber(event, dish.id, 'add')}/>
+                        </div>
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <StyledButton 
                               className="buttonHome"
                               title={"Incluir"} 
-                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                              onClick ={(event) => { addToCartShopping(event, dish);}}
                             />
                           }
                           
@@ -368,23 +376,25 @@ export function Home (){
                           handleDetails(dish.id)}}
                           className="imgDISH"
                       />
+                      <div  className="name-Price">
                         <h4> {dish.name} </h4>
-                        <h3> {dish.price}</h3>
+                        <h3> R$ {calculateTotalPrice(dish)}</h3>
+                      </div>
                         {  
                           [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <div className="AddDishs">
-                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
-                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+                          <div className="AddDishs">
+                          <StyledButtonText2 title={< AiOutlineMinus/>} onClick={(event) => { updateDishsOrderNumber(event, dish.id, 'minus')}}/>
+                          <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'add')}}/>
-                            </div>
+                          <StyledButtonText2 title={< AiOutlinePlus/>} onClick={(event) => updateDishsOrderNumber(event, dish.id, 'add')}/>
+                        </div>
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <StyledButton 
                               className="buttonHome"
                               title={"Incluir"} 
-                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                              onClick ={(event) => {addToCartShopping(event, dish);}}
                             />
                           }
                           
@@ -455,23 +465,25 @@ export function Home (){
                           handleDetails(dish.id)}}
                           className="imgDISH"
                       />
+                      <div  className="name-Price">
                         <h4> {dish.name} </h4>
-                        <h3> {dish.price}</h3>
+                        <h3> R$ {calculateTotalPrice(dish)}</h3>
+                      </div>
                         {  
                           [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <div className="AddDishs">
-                              <StyledButtonText2 title={< AiOutlineMinus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'minus')}}/>
-                              <p>{dishsNumberOrder[dish.id] || 1 }</p>
+                          <div className="AddDishs">
+                          <StyledButtonText2 title={< AiOutlineMinus/>} onClick={(event) => { updateDishsOrderNumber(event, dish.id, 'minus')}}/>
+                          <p>{dishsNumberOrder[dish.id] || 1 }</p>
 
-                              <StyledButtonText2 title={< AiOutlinePlus/>} onClick={() => { updateDishsOrderNumber(dish.id, 'add')}}/>
-                            </div>
+                          <StyledButtonText2 title={< AiOutlinePlus/>} onClick={(event) => updateDishsOrderNumber(event, dish.id, 'add')}/>
+                        </div>
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
                             <StyledButton 
                               className="buttonHome"
                               title={"Incluir"} 
-                              onClick ={(event) => {event.preventDefault() ; addToCartShopping();}}
+                              onClick ={(event) => {addToCartShopping(event, dish);}}
                             />
                           }
                           

@@ -4,9 +4,9 @@ import {DEVICE_BREAKPOINTS} from "../../styles/deviceBreakPoints"
 
 export const Container = styled.footer`
 
-height: 7.7rem;
-background-color: ${({theme}) => theme.COLORS.SecondBackground};
-margin-top: 3rem;
+  height: 7.7rem;
+  background-color: ${({theme}) => theme.COLORS.SecondBackground};
+  margin-top: 3rem;
 
   p{
     font-size: 1.0rem;
