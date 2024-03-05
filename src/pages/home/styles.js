@@ -1,4 +1,4 @@
-import { styled, css} from "styled-components";
+import { styled, css, keyframes} from "styled-components";
 import { ButtonText } from "../../components/buttonText";
 import { Button } from "../../components/button";
 import {PiHeartStraightFill} from "react-icons/pi"
@@ -224,11 +224,6 @@ export const Container = styled.div`
     z-index: 0;
   }
 
-  /* .swiper-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  } */
 
   @media(min-width: ${DEVICE_BREAKPOINTS.X_SMALL}){
   .swiper-container {
@@ -265,9 +260,26 @@ export const StyledButton = styled(Button)`
   height: 3.4rem;
   padding: 0.4rem 2.9rem;
 
+
   &.buttonHome{
     background-color:  ${({theme}) => theme.COLORS.BUTTON_COLOR};
   }
+
+  &.buttonHome.clicked{
+    animation: buttonClickAnimation 0.5s ease-in-out ;
+  }
+
+  @keyframes buttonClickAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 `
 
@@ -275,3 +287,5 @@ export const StyledFilledHeartIcon = styled(PiHeartStraightFill)`
   color: red;
 
 `;
+
+

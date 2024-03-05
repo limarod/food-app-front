@@ -9,6 +9,7 @@ import { useState, useEffect, useRef, useLayoutEffect  } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { api } from "../../services/api"
 import {useAuth} from "../../hooks/auth"
+import {useHandleQuantity} from "../../hooks/quantityDishContext"
 import{USER_ROLE} from "../../utils/roles"
 import { useMemo } from "react"
 
@@ -32,7 +33,8 @@ export function Home (){
   const navigate = useNavigate()
   const params = useParams()
 
-  const {user, addToCartShopping, dishsNumberOrder, updateDishsOrderNumber} = useAuth()
+  const {user } = useAuth()
+  const {  dishsNumberOrder, updateDishsOrderNumber, addToCartShopping} = useHandleQuantity()
 
 
   const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false)
@@ -40,6 +42,7 @@ export function Home (){
 
   const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
   const [heartIcon, setHeartIcon] = useState({})
+  const [isClicked, setIsClicked] = useState(null);
 
 
 
@@ -83,6 +86,17 @@ export function Home (){
   }
 
 
+
+  function newFunc(dishId){
+    setIsClicked(dishId);
+
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 500);
+  }
+  
+
+
   useEffect(() =>{
     async function fetchFavorites(){
 
@@ -96,11 +110,11 @@ export function Home (){
       });
 
       setHeartIcon(updatedIcons)
-
     }
 
     fetchFavorites()
-  }, [addToFavorites])
+
+  }, [addToFavorites]);
 
 
   return(
@@ -214,14 +228,11 @@ export function Home (){
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <StyledButton className="buttonHome"
+                            <StyledButton className={`buttonHome ${isClicked === dish.id ? 'clicked' : ''}`}
                               title={"Incluir"} 
-                              onClick ={(event) => { addToCartShopping(event, dish)}}
+                              onClick ={(event) => { addToCartShopping(event, dish); newFunc(dish.id)}}
                             />
                           }
-                          
-
-
                     </div>
                     </SwiperSlide>
                   </li>
@@ -302,10 +313,9 @@ export function Home (){
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <StyledButton 
-                              className="buttonHome"
+                            <StyledButton className={`buttonHome ${isClicked === dish.id ? 'clicked' : ''}`}
                               title={"Incluir"} 
-                              onClick ={(event) => { addToCartShopping(event, dish);}}
+                              onClick ={(event) => { addToCartShopping(event, dish); newFunc(dish.id)}}
                             />
                           }
                           
@@ -391,10 +401,9 @@ export function Home (){
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <StyledButton 
-                              className="buttonHome"
+                            <StyledButton className={`buttonHome ${isClicked === dish.id ? 'clicked' : ''}`}
                               title={"Incluir"} 
-                              onClick ={(event) => {addToCartShopping(event, dish);}}
+                              onClick ={(event) => { addToCartShopping(event, dish); newFunc(dish.id)}}
                             />
                           }
                           
@@ -480,10 +489,9 @@ export function Home (){
                           }
                           {
                             [USER_ROLE.CUSTOMER].includes(user.role) &&
-                            <StyledButton 
-                              className="buttonHome"
+                            <StyledButton className={`buttonHome ${isClicked === dish.id ? 'clicked' : ''}`}
                               title={"Incluir"} 
-                              onClick ={(event) => {addToCartShopping(event, dish);}}
+                              onClick ={(event) => { addToCartShopping(event, dish); newFunc(dish.id)}}
                             />
                           }
                           

@@ -7,16 +7,6 @@ function AuthProvider({children}){
   const [data, setData] = useState({})
   const [dishs, setDishs] = useState()
    
-  const [shoppingCartNumber, setShoppingCartNumber] = useState(() => {
-    const storedShoppingCartNumber = localStorage.getItem("@foodExplorer:shoppingCartNumber");
-    return storedShoppingCartNumber ? parseInt(storedShoppingCartNumber, 10) : 0
-  })
-
-  const[ dishsNumberOrder, setDishsNumberOrder] = useState(1)
-
- 
-
-
   async function signIn({email, password}){
     try {
       const response = await api.post("/sessions",
@@ -45,23 +35,6 @@ function AuthProvider({children}){
     document.body.classList.remove("menu-open")
   } 
 
-  async function updateProfile({user}){
-    try {
-
-      await api.put("/users", user);
-      localStorage.setItem("@foodExplorer:user", JSON.stringify(user));
-
-      setData({user});
-      alert("Perfil atualizado com sucesso.")
-      
-    } catch (error) {
-      if(error.response){
-        alert(error.response.data.message)
-      }else{
-        alert("não foi possível atualizar o perfil do usuário")
-      }
-    }
-  }
 
   async function updateDishImg(){
     try {
@@ -73,43 +46,6 @@ function AuthProvider({children}){
     } catch (error) {
       console.error("Erro na obtenção de dados ")
     }
-  }
-
-  function updateDishsOrderNumber(event, dishId, operation){
-    event.preventDefault()
-
-    setDishsNumberOrder((prevState) => { 
-      
-      const currentQuantity = prevState[dishId] || 1;
-
-      let updatedState
-    
-      if (operation === 'add'){
-        updatedState = {...prevState, [dishId]: currentQuantity + 1};
-      }else if(operation === 'minus' && currentQuantity > 0){
-        updatedState = {...prevState, [dishId]: currentQuantity - 1};
-      }
-     
-      return {...prevState, ...updatedState}
-    })
-  }
-
-  async function addToCartShopping(event, dish){
-    event.preventDefault()
-    const quantity = dishsNumberOrder[dish.id] || 1 
-    
-    await api.post("/shoppingCart", {
-      
-      dish_id: dish.id,
-      quantity,
-      
-    })
-
-    setShoppingCartNumber((prevState) => prevState + quantity)
-    
-    localStorage.setItem("@foodExplorer:shoppingCartNumber", shoppingCartNumber + quantity );
-
-    setDishsNumberOrder(1)
   }
 
   useEffect(() => {
@@ -124,16 +60,12 @@ function AuthProvider({children}){
 
     return (
       <AuthContext.Provider value={{
-        addToCartShopping,
-        shoppingCartNumber,
-        setShoppingCartNumber,
+
         signIn,
         signOut,
-        updateProfile,
+
         updateDishImg,
-        updateDishsOrderNumber,
-        dishsNumberOrder,
-        setDishsNumberOrder,
+
         user:data.user}}>
         {children}
       </AuthContext.Provider>

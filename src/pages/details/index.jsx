@@ -3,12 +3,12 @@ import { Container, NewButton, NewButtonText, StyledButtonText2 } from "./styles
 import {Header} from "../../components/header"
 import {Footer} from "../../components/footer"
 import {Tag} from "../../components/tag"
-import dishimage from "../../assets/Dish - Salada Ravanello.png"
 import { useParams, useNavigate } from "react-router-dom"
 import{useState, useEffect} from "react"
 import { api } from "../../services/api";
 import {USER_ROLE} from "../../utils/roles"
 import {useAuth} from "../../hooks/auth"
+import {useHandleQuantity} from "../../hooks/quantityDishContext"
 import { PiReceipt } from "react-icons/pi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
@@ -17,10 +17,13 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 
 export function Details(){
-  const {user, addToCartShopping, updateDishsOrderNumber, dishsNumberOrder} = useAuth()
+  const {user} = useAuth()
+  const {addToCartShopping, updateDishsOrderNumber, dishsNumberOrder} = useHandleQuantity()
 
   const [data, setData] = useState(null)
   const [shoppingCartNumber, setShoppingCartNumber] = useState(0)
+
+  const [isClicked, setIsClicked] = useState(null);
 
   const params = useParams();
   const navigate = useNavigate()
@@ -29,6 +32,26 @@ export function Details(){
     navigate(`/updateDish/${dishId}`)
   }
 
+  const calculateTotalPrice = (dish) =>{
+    const quantity = dishsNumberOrder[dish.id] || 1;
+    const priceAsNumber = parseFloat(dish.price.replace(',', '.'));
+    const totalPrice = quantity * priceAsNumber;
+    
+    return (totalPrice.toFixed(2).replace('.', ','))
+  }
+
+
+
+
+  function newFunc(dishId){
+    setIsClicked(dishId);
+    console.log(dishId)
+
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 500);
+  }
+  
 
   
   useEffect(() =>{
@@ -104,12 +127,12 @@ export function Details(){
                     <StyledButtonText2 title={< AiOutlinePlus/>} onClick={(event) => updateDishsOrderNumber(event, data.id, 'add')}/>
         
                     <NewButton 
-                      className="buttonDetails"
+                      // className="buttonDetails"
+                      className={`buttonDetails ${isClicked === data.id ? 'clicked' : ''}`}
                       icon={PiReceipt}
-                      title={` pedir -  ${data.price}` }
-                      onClick ={(event) => { addToCartShopping(event, data)}}
+                      title={` pedir -  R$ ${calculateTotalPrice(data)}` }
+                      onClick ={(event) => { addToCartShopping(event, data) ; newFunc(data.id)}}
                     />
-                  
                   </div>
                 }
               </div>

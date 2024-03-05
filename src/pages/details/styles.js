@@ -131,10 +131,14 @@ export const Container = styled.div`
 export const NewButton = styled(Button)`
 
   &.buttonDetails{
-    background-color: ${({theme}) => theme.COLORS.BUTTON_COLOR};
-    margin: auto;
-    max-width: 45rem;
-}
+    background-color:  ${({theme}) => theme.COLORS.BUTTON_COLOR};
+  }
+
+  &.buttonDetails.clicked{
+    animation: buttonClickAnimation 0.5s ease-in-out ;
+  }
+
+
 `
 export const NewButtonText = styled(ButtonText)`
   font-size: 2rem;

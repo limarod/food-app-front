@@ -4,13 +4,13 @@ import { Footer } from "../../components/footer"
 import {ButtonText} from "../../components/buttonText"
 import { useState, useEffect } from "react"
 import { api } from "../../services/api"
-import { useAuth } from "../../hooks/auth" 
+import {useHandleQuantity} from "../../hooks/quantityDishContext"
 import { useParams } from "react-router-dom"
 
 
 export function Favorites(){
 
-  const { addToCartShopping} = useAuth()
+  const { addToCartShoppingFavorite} = useHandleQuantity()
   const [data, setData] = useState()
   const params = useParams();
 
@@ -48,7 +48,7 @@ export function Favorites(){
                 <ButtonText 
                   className="buttonOrder" 
                   title={"Adicionar ao pedido"}
-                  onClick ={(event) => {event.preventDefault() ; addToCartShopping(item)}}
+                  onClick ={(event) => addToCartShoppingFavorite(event, item )}
                 />
                 <ButtonText 
                   className="newButtonText" 

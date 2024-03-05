@@ -9,13 +9,15 @@ import {Textarea} from "../../components/textarea"
 import { Header } from "../../components/header"
 import { useState, useEffect } from "react"
 import {useAuth} from "../../hooks/auth"
+import {useHandleQuantity} from "../../hooks/quantityDishContext"
 import { useNavigate } from "react-router-dom"
 import { api } from "../../services/api"
 
 export function Payment(){
   const navigate = useNavigate()
 
-  const {setShoppingCartNumber,user, shoppingCartNumber} = useAuth()
+  const {user} = useAuth()
+  const {setShoppingCartNumber} = useHandleQuantity()
   const [pixBox, setPixBox] = useState(true);
   const [creditCardBox, setCreditCardBox] = useState(false);
   const [finishedPayment, setFinishedPayment] = useState(false)
@@ -59,7 +61,7 @@ export function Payment(){
         })
     }
 
-    localStorage.clear()
+    localStorage.removeItem('@foodExplorer:shoppingCartNumber');
     setShoppingCartNumber(0)
     await api.delete("/shoppingCartDeleteAll")
     navigate("/")

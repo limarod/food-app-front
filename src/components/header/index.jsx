@@ -2,6 +2,7 @@ import { Container, NewButton } from "./styles";
 import {HiOutlineMenu} from "react-icons/hi"
 import {BiFoodMenu} from "react-icons/bi"
 import {useAuth} from "../../hooks/auth"
+import {useHandleQuantity} from "../../hooks/quantityDishContext"
 import {USER_ROLE} from "../../utils/roles"
 import {PiReceipt} from "react-icons/pi"
 import { useNavigate } from "react-router-dom"
@@ -17,7 +18,8 @@ import { api } from "../../services/api";
 
 export function Header({onOpenMenu, currentPage, onSearchComplete }){
  const navigate = useNavigate()
- const {user, addToCartShopping, shoppingCartNumber, signOut} = useAuth()
+ const {user,  signOut} = useAuth()
+ const { addToCartShopping, shoppingCartNumber} = useHandleQuantity()
 
 
   const [search, setSearch] = useState("")

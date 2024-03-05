@@ -4,17 +4,16 @@ import { HeaderWreceipt } from "../../components/headerWreceipt"
 import { Footer } from "../../components/footer"
 import {ButtonText} from "../../components/buttonText"
 import {Button} from "../../components/button"
-import dishimage from "../../assets/Dish - Salada Ravanello.png"
 import { api } from "../../services/api"
 import { useState, useEffect } from "react"
-import {useAuth} from "../../hooks/auth"
+import {useHandleQuantity} from "../../hooks/quantityDishContext"
 import { useNavigate } from "react-router-dom"
 
 
 export function Order(){
   const navigate = useNavigate() 
 
-  const {setShoppingCartNumber, shoppingCartNumber} = useAuth()
+  const {setShoppingCartNumber, shoppingCartNumber} = useHandleQuantity()
 
   const [dishs, setDishs] = useState()
 
