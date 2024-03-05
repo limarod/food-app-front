@@ -154,9 +154,10 @@ export function Home (){
 
           <div className="main">
 
+          {dishs && dishs.some((dish) => dish.category === "Entrada") && (
             <div className="cardsEntrada">
-              <h3>Entradas</h3>
               
+              <h3>Entradas</h3>
               <Swiper 
                  modules={[Navigation, Pagination, Scrollbar, A11y]}
                  breakpoints={{
@@ -241,7 +242,9 @@ export function Home (){
               }
               </Swiper>
             </div>
+          )}
 
+          {dishs && dishs.some((dish) => dish.category === "Refeição") && (
             <div className="cardsRefeicao">
               <h3>Refeições</h3>
               <Swiper 
@@ -329,7 +332,9 @@ export function Home (){
               }
               </Swiper>
             </div>
+          )}
 
+          {dishs && dishs.some((dish) => dish.category === "Bebida") && (
             <div className="cardsBebida">
               <h3>Bebidas</h3>
               <Swiper 
@@ -417,7 +422,9 @@ export function Home (){
               }
               </Swiper>
             </div>
+          )}
 
+          {dishs && dishs.some((dish) => dish.category === "Sobremesa") && (
             <div className="cardsSobremesa">
             <h3>Sobremesas</h3>
             <Swiper 
@@ -505,6 +512,7 @@ export function Home (){
               }
               </Swiper>
             </div>
+          )}
 
           </div>
           
