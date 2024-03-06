@@ -31,8 +31,10 @@ export const Container = styled.div`
     margin: 0 auto;
   }
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+
 
   @media(min-width: ${DEVICE_BREAKPOINTS.MEDIUM}){
     min-width: 82.5rem;
