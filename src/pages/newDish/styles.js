@@ -104,11 +104,11 @@ export const Container = styled.div`
     flex-wrap: wrap;
     gap: 1rem;
 
-  
 
     @media(min-width: ${DEVICE_BREAKPOINTS.LARGE}){
      margin: 0;
-     min-width: 55rem;
+     min-width: 53rem;
+     max-width: 52rem;
      
     }
   }
