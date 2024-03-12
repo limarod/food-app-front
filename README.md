@@ -42,6 +42,15 @@ npm run dev
 Servidor vai inicializar em:
     http://localhost:5173/
 
+
+# deploy BackEnd
+O Deploy do back end foi feito utilizando o RENDER conforme URL abaixo:
+https://food-app-back-5b83.onrender.com
+
+# deploy Front
+O Deploy Front-end foi feito utilizando o Netlify conforme URL abaixo:
+https://foodapprocket.netlify.app
+
 # Cadastro de usuários:
 Utilizar uma API client (como postman ou insomnia) para cadastrar um user ADMIN enviando objeto JSON com a role 'admin' , ou
 utilizar um gerenciador database como SQL Server ou Beekeeper Studio para alteração da role manualmente.
