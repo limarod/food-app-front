@@ -43,11 +43,11 @@ Servidor vai inicializar em:
     http://localhost:5173/
 
 
-# deploy BackEnd
+# Deploy BackEnd
 O Deploy do back end foi feito utilizando o RENDER conforme URL abaixo:
 https://food-app-back-5b83.onrender.com
 
-# deploy Front
+# Deploy Front
 O Deploy Front-end foi feito utilizando o Netlify conforme URL abaixo:
 https://foodapprocket.netlify.app
 
